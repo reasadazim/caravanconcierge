@@ -11,9 +11,9 @@
 
                 <!-- Example two level -->
                 <x-layouts.sidebar-two-level-link-parent title="LEAD MANAGEMENT" icon="mdi:leads-outline"
-                                                         :active="request()->routeIs('two-level*')">
-                    <x-layouts.sidebar-two-level-link href="#" icon='octicon:dot-24'
-                                                      :active="request()->routeIs('two-level*')"> Leads</x-layouts.sidebar-two-level-link>
+                                                         :active="request()->routeIs('leads')">
+                    <x-layouts.sidebar-two-level-link href="leads" icon='octicon:dot-24'
+                                                      :active="request()->routeIs('leads')"> Leads</x-layouts.sidebar-two-level-link>
                     <x-layouts.sidebar-two-level-link href="#" icon='octicon:dot-24'
                                                       :active="request()->routeIs('two-level*')"> Contact Tracking</x-layouts.sidebar-two-level-link>
                     <x-layouts.sidebar-two-level-link href="#" icon='octicon:dot-24'

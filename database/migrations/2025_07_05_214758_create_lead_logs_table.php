@@ -36,11 +36,11 @@ return new class extends Migration
             $table->string('lead_emergency_contact_name')->nullable();
             $table->string('lead_emergency_contact_phone')->nullable();
             $table->string('lead_emergency_contact_address')->nullable();
-            $table->text('lead_remarks')->nullable();
+            $table->longText('lead_remarks')->nullable();
             $table->dateTime('lead_last_contact_datetime')->nullable();
             $table->string('lead_contact_method')->nullable();
             $table->dateTime('lead_followup_reminder')->nullable();
-            $table->text('lead_contact_remarks')->nullable();
+            $table->longText('lead_contact_remarks')->nullable();
 
             // Extra logging info
             $table->enum('action_type', ['INSERT', 'UPDATE', 'DELETE']);

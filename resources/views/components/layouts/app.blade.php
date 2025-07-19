@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name') }}</title>
+    <link rel="icon" type="image/svg" href="../favicon.svg">
     <script>
         window.setAppearance = function(appearance) {
             let setDark = () => document.documentElement.classList.add('dark')
@@ -35,6 +36,24 @@
     </script>
 
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+
+    {{-- Include jQuery & DataTables --}}
+
+    <link href="{{ asset('css/bootstrap/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/dataTables/dataTables.bootstrap5.css') }}" rel="stylesheet" />
+
+    <script src="{{ asset('js/jquery/jquery-3.7.1.js') }}"></script>
+    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.bootstrap5.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/buttons.html5.min.js') }}"></script>
+
+
+    {{--  Custom CSS  --}}
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -113,6 +132,9 @@
             </main>
         </div>
     </div>
+
+@stack('scripts')
+
 </body>
 
 </html>

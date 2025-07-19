@@ -1,0 +1,36 @@
+/* Header */
+.dashboard-logo{
+    width: 180px;
+    margin-top: 5px;
+}
+
+
+/* Datatable */
+table.table.dataTable > tbody > tr {
+    font-size: 13px;
+}
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after {
+    display: none !important;
+    content: "" !important;
+}
+#leads-table th {
+    white-space: nowrap;
+    font-size: 12px;
+}
+input#dt-search-0 {
+    border: 1px solid #dfdfdf !important;
+    border-radius: 5px !important;
+}
+@media screen and (max-width: 992px) {
+    #statusFilter, #scoreFilter{
+        margin-bottom: 10px !important;
+    }
+    button#resetFilters {
+        float: right;
+    }
+}

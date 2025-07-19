@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="row justify-items-center">
         <div class="col mb-6">
-            <img src="/assets/img/Logo.svg" alt="">
+            <img src="/img/Logo.svg" alt="">
         </div>
     </div>
 

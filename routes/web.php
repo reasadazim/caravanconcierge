@@ -26,8 +26,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     //Leads
-    Route::get('leads', [LeadsController::class, 'leads'])->name('leads');
-
+    Route::get('/leads', [LeadsController::class, 'index'])->name('leads.index');
+    Route::get('/leads/data', [LeadsController::class, 'getData'])->name('leads.data');
+    Route::get('/leads/export', [LeadsController::class, 'export'])->name('leads.export');
 
 
 

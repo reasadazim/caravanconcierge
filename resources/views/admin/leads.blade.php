@@ -2,107 +2,186 @@
 
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Leads')}}</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Welcome to the dashboard') }}</p>
+{{--        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Welcome to the dashboard') }}</p>--}}
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Total Users') }}</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">--</p>
-                    <p class="text-xs text-gray-500 flex items-center mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                        {{ __('No data') }}
-                    </p>
-                </div>
-                <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 dark:text-blue-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
+    <div class="py-12">
+        <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
+                <div class="p-6">
 
-        <!-- Revenue Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Total Revenue') }}</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">--</p>
-                    <p class="text-xs text-gray-500 flex items-center mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                        {{ __('No data') }}
-                    </p>
-                </div>
-                <div class="bg-green-100 dark:bg-green-900 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 dark:text-green-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
 
-        <!-- Orders Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Total Orders') }}</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">--</p>
-                    <p class="text-xs text-gray-500 flex items-center mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                        {{ __('No data') }}
-                    </p>
-                </div>
-                <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500 dark:text-purple-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
+                    <div class="row mb-3">
+                        <div class="col-auto">
+{{--                            <label for="statusFilter" class="form-label">Lead Status</label>--}}
+                            <select id="statusFilter" class="form-select">
+                                <option value="">Lead Status</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+{{--                            <label for="scoreFilter" class="form-label">Lead Score</label>--}}
+                            <select id="scoreFilter" class="form-select">
+                                <option value="">Lead Score</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button id="resetFilters" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </div>
 
-        <!-- Visitors Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('Total Visitors') }}</p>
-                    <p class="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-1">--</p>
-                    <p class="text-xs text-gray-500 flex items-center mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                        </svg>
-                        {{ __('No data') }}
-                    </p>
-                </div>
-                <div class="bg-orange-100 dark:bg-orange-900 p-3 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-500 dark:text-orange-300"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
+                    <div class="table-responsive">
+                        <div class="dataTables_wrapper">
+                            <table id="leads-table" class="table table-striped table-bordered" style="width:100%">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Country</th>
+                                    <th>Street</th>
+                                    <th>Suburb</th>
+                                    <th>State</th>
+                                    <th>Postcode</th>
+                                    <th>Storage Type</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Rego Number</th>
+                                    <th>Status</th>
+                                    <th>Score</th>
+{{--                                    <th>Emergency Name</th>--}}
+{{--                                    <th>Emergency Phone</th>--}}
+{{--                                    <th>Emergency Address</th>--}}
+{{--                                    <th>Remarks</th>--}}
+{{--                                    <th>Last Contact</th>--}}
+{{--                                    <th>Contact Method</th>--}}
+{{--                                    <th>Follow-up</th>--}}
+{{--                                    <th>Contact Remarks</th>--}}
+{{--                                    <th>Created</th>--}}
+{{--                                    <th>Updated</th>--}}
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    @push('scripts')
+                        <!-- Bootstrap 5 CSS -->
+                        {{--            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">--}}
+
+                        <!-- DataTables Bootstrap 5 CSS -->
+                        <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+                        <!-- jQuery -->
+                        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+                        <!-- Bootstrap JS -->
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+                        <!-- DataTables JS -->
+                        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+                        <style>
+                            .dataTables_filter {
+                                float: right !important;
+                            }
+
+                            .dataTables_paginate .pagination {
+                                justify-content: flex-end;
+                            }
+
+                            .dataTables_length, .dataTables_info {
+                                margin-top: 10px;
+                            }
+                        </style>
+
+
+                        <script>
+                            $(function () {
+                                let table = $('#leads-table').DataTable({
+                                    processing: true,
+                                    serverSide: true,
+                                    responsive: true,
+                                    dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>',
+                                    buttons: [
+                                        {
+                                            extend: 'excelHtml5',
+                                            text: 'Export Excel',
+                                            className: 'btn btn-success',
+                                            action: function (e, dt, button, config) {
+                                                window.location.href = '{{ route("leads.export") }}';
+                                            }
+                                        }
+                                    ],
+                                    lengthMenu: [10, 25, 50, 100, 500, 1000, 5000, 10000],
+                                    ajax: {
+                                        url: '{{ route("leads.data") }}',
+                                        data: function (d) {
+                                            d.lead_status = $('#statusFilter').val();
+                                            d.lead_score = $('#scoreFilter').val();
+                                        }
+                                    },
+                                    columns: [
+                                        { data: 'id' },
+                                        { data: 'lead_name' },
+                                        { data: 'lead_email' },
+                                        { data: 'lead_phone' },
+                                        { data: 'lead_country' },
+                                        { data: 'lead_street' },
+                                        { data: 'lead_suburb' },
+                                        { data: 'lead_state' },
+                                        { data: 'lead_postcode' },
+                                        { data: 'lead_storage_type' },
+                                        { data: 'lead_vehicle_type' },
+                                        { data: 'lead_rego_number' },
+                                        { data: 'lead_status' },
+                                        { data: 'lead_score' },
+                                        // { data: 'lead_emergency_contact_name' },
+                                        // { data: 'lead_emergency_contact_phone' },
+                                        // { data: 'lead_emergency_contact_address' },
+                                        // { data: 'lead_remarks' },
+                                        // { data: 'lead_last_contact_datetime' },
+                                        // { data: 'lead_contact_method' },
+                                        // { data: 'lead_followup_reminder' },
+                                        // { data: 'lead_contact_remarks' },
+                                        // { data: 'created_at' },
+                                        // { data: 'updated_at' }
+                                    ],
+                                    initComplete: function () {
+                                        populateFilters(table);
+                                    }
+                                });
+
+                                $('#statusFilter, #scoreFilter').on('change', function () {
+                                    table.ajax.reload();
+                                });
+
+                                  // Reset Filters
+                                $('#resetFilters').click(function () {
+                                    $('#statusFilter, #scoreFilter').val('');
+                                    table.ajax.reload();
+                                });
+
+                                function populateFilters(table) {
+                                    let statusSet = new Set();
+                                    let scoreSet = new Set();
+
+                                    table.data().each(function (row) {
+                                        if (row.lead_status !== null) statusSet.add(row.lead_status);
+                                        if (row.lead_score !== null) scoreSet.add(row.lead_score);
+                                    });
+
+                                    statusSet = Array.from(statusSet).sort((a, b) => a - b);
+                                    $('#statusFilter').append(statusSet.map(val => `<option value="${val}">${val}</option>`));
+
+                                    scoreSet = Array.from(scoreSet).sort((a, b) => a - b);
+                                    $('#scoreFilter').append(scoreSet.map(val => `<option value="${val}">${val}</option>`));
+                                }
+                            });
+                        </script>
+                    @endpush
+
                 </div>
             </div>
         </div>

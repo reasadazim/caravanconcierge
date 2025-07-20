@@ -29,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/leads', [LeadsController::class, 'index'])->name('leads.index');
     Route::get('/leads/data', [LeadsController::class, 'getData'])->name('leads.data');
     Route::get('/leads/export', [LeadsController::class, 'export'])->name('leads.export');
+    Route::get('/leads/filters', [LeadsController::class, 'getFilterOptions'])->name('leads.filters');
+
 
 
 

@@ -21,12 +21,20 @@ class LeadsController extends Controller
     {
         $query = Leads::query();
 
-        if ($request->filled('lead_status')) {
-            $query->where('lead_status', $request->lead_status);
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
-        if ($request->filled('lead_score')) {
-            $query->where('lead_score', $request->lead_score);
+        if ($request->filled('score')) {
+            $query->where('score', $request->score);
+        }
+
+        if ($request->filled('state')) {
+            $query->where('state', $request->state);
+        }
+
+        if ($request->filled('suburb')) {
+            $query->where('suburb', $request->suburb);
         }
 
         return DataTables::of($query)->make(true);
@@ -36,6 +44,17 @@ class LeadsController extends Controller
     {
         return Excel::download(new LeadsExport($request), 'leads.xlsx');
     }
+
+    public function getFilterOptions()
+    {
+        return response()->json([
+            'status' => Leads::whereNotNull('status')->distinct()->orderBy('status')->pluck('status'),
+            'score' => Leads::whereNotNull('score')->distinct()->orderBy('score')->pluck('score'),
+            'state' => Leads::whereNotNull('state')->distinct()->orderBy('state')->pluck('state'),
+            'suburb' => Leads::whereNotNull('suburb')->distinct()->orderBy('suburb')->pluck('suburb'),
+        ]);
+    }
+
 
 
 }

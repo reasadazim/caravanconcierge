@@ -1,32 +1,45 @@
 <x-layouts.app>
 
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Leads')}}</h1>
-{{--        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Welcome to the dashboard') }}</p>--}}
+        <div class="flex items-center gap-2">
+            <iconify-icon icon="mynaui:users" class="w-6 h-6 text-gray-800 dark:text-gray-100 text-2xl"></iconify-icon>
+            <h1 class="text-2xl text-gray-800 dark:text-gray-100">{{ __('Leads') }}</h1>
+        </div>
+
+        {{--        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Welcome to the dashboard') }}</p>--}}
     </div>
 
-    <div class="py-12">
-        <div class="max-w-12xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6">
+        <div class="max-w-12xl mx-auto sm:px-0 lg:px-0">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
                 <div class="p-6">
 
 
                     <div class="row mb-3">
                         <div class="col-auto">
-{{--                            <label for="statusFilter" class="form-label">Lead Status</label>--}}
                             <select id="statusFilter" class="form-select">
-                                <option value="">Lead Status</option>
+                                <option value="">Status</option>
                             </select>
                         </div>
                         <div class="col-auto">
-{{--                            <label for="scoreFilter" class="form-label">Lead Score</label>--}}
                             <select id="scoreFilter" class="form-select">
-                                <option value="">Lead Score</option>
+                                <option value="">Score</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <select id="stateFilter" class="form-select">
+                                <option value="">State</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <select id="suburbFilter" class="form-select">
+                                <option value="">Suburb</option>
                             </select>
                         </div>
                         <div class="col-auto">
                             <button id="resetFilters" class="btn btn-secondary">Reset</button>
                         </div>
+
                     </div>
 
                     <div class="table-responsive">
@@ -34,30 +47,36 @@
                             <table id="leads-table" class="table table-striped table-bordered" style="width:100%">
                                 <thead class="table-dark">
                                 <tr>
-                                    <th>SL</th>
+                                    {{--                                    <th>SL</th>--}}
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Country</th>
+                                    {{--                                    <th>Country</th>--}}
                                     <th>Street</th>
                                     <th>Suburb</th>
                                     <th>State</th>
                                     <th>Postcode</th>
+                                    {{--                                    <th>Type</th>--}}
                                     <th>Storage Type</th>
                                     <th>Vehicle Type</th>
+                                    {{--                                    <th>Vehicle Model</th>--}}
+                                    {{--                                    <th>Estimated Value</th>--}}
                                     <th>Rego Number</th>
                                     <th>Status</th>
                                     <th>Score</th>
-{{--                                    <th>Emergency Name</th>--}}
-{{--                                    <th>Emergency Phone</th>--}}
-{{--                                    <th>Emergency Address</th>--}}
-{{--                                    <th>Remarks</th>--}}
-{{--                                    <th>Last Contact</th>--}}
-{{--                                    <th>Contact Method</th>--}}
-{{--                                    <th>Follow-up</th>--}}
-{{--                                    <th>Contact Remarks</th>--}}
-{{--                                    <th>Created</th>--}}
-{{--                                    <th>Updated</th>--}}
+                                    {{--                                    <th>Priority</th>--}}
+                                    {{--                                    <th>Emergency Name</th>--}}
+                                    {{--                                    <th>Emergency Phone</th>--}}
+                                    {{--                                    <th>Emergency Address</th>--}}
+                                    {{--                                    <th>Remarks</th>--}}
+                                    {{--                                    <th>Added to Waitlist</th>--}}
+                                    {{--                                    <th>Last Contact</th>--}}
+                                    {{--                                    <th>Contact Method</th>--}}
+                                    {{--                                    <th>Follow-up</th>--}}
+                                    {{--                                    <th>Contact Remarks</th>--}}
+                                    {{--                                    <th>Created</th>--}}
+                                    {{--                                    <th>Updated</th>--}}
+
                                 </tr>
                                 </thead>
                             </table>
@@ -66,21 +85,6 @@
 
 
                     @push('scripts')
-                        <!-- Bootstrap 5 CSS -->
-                        {{--            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">--}}
-
-                        <!-- DataTables Bootstrap 5 CSS -->
-                        <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-
-                        <!-- jQuery -->
-                        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-                        <!-- Bootstrap JS -->
-                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-                        <!-- DataTables JS -->
-                        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-                        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
                         <style>
                             .dataTables_filter {
@@ -118,66 +122,125 @@
                                     ajax: {
                                         url: '{{ route("leads.data") }}',
                                         data: function (d) {
-                                            d.lead_status = $('#statusFilter').val();
-                                            d.lead_score = $('#scoreFilter').val();
+                                            d.status = $('#statusFilter').val();
+                                            d.score = $('#scoreFilter').val();
+                                            d.state = $('#stateFilter').val();
+                                            d.suburb = $('#suburbFilter').val();
                                         }
                                     },
                                     columns: [
-                                        { data: 'id' },
-                                        { data: 'lead_name' },
-                                        { data: 'lead_email' },
-                                        { data: 'lead_phone' },
-                                        { data: 'lead_country' },
-                                        { data: 'lead_street' },
-                                        { data: 'lead_suburb' },
-                                        { data: 'lead_state' },
-                                        { data: 'lead_postcode' },
-                                        { data: 'lead_storage_type' },
-                                        { data: 'lead_vehicle_type' },
-                                        { data: 'lead_rego_number' },
-                                        { data: 'lead_status' },
-                                        { data: 'lead_score' },
-                                        // { data: 'lead_emergency_contact_name' },
-                                        // { data: 'lead_emergency_contact_phone' },
-                                        // { data: 'lead_emergency_contact_address' },
-                                        // { data: 'lead_remarks' },
-                                        // { data: 'lead_last_contact_datetime' },
-                                        // { data: 'lead_contact_method' },
-                                        // { data: 'lead_followup_reminder' },
-                                        // { data: 'lead_contact_remarks' },
+                                        // { data: 'id' },
+                                        { data: 'name' },
+                                        { data: 'email' },
+                                        { data: 'phone' },
+                                        // { data: 'country' },
+                                        { data: 'street' },
+                                        { data: 'suburb' },
+                                        { data: 'state' },
+                                        { data: 'postcode' },
+                                        { data: 'storage_type' },
+                                        { data: 'vehicle_type' },
+                                        // { data: 'vehicle_model' },
+                                        // { data: 'vehicle_estimated_value' },
+                                        { data: 'rego_number' },
+                                        // { data: 'type' },
+                                        {
+                                            data: 'status',
+                                            render: function (data) {
+                                                const statusMap = {
+                                                    1: { label: 'New Lead', class: 'bg-blue-500' },
+                                                    2: { label: 'Contacted', class: 'bg-cyan-500' },
+                                                    3: { label: 'NR1', class: 'bg-yellow-500' },
+                                                    4: { label: 'NR2', class: 'bg-yellow-500' },
+                                                    5: { label: 'NR3', class: 'bg-yellow-500' },
+                                                    6: { label: 'Engaged', class: 'bg-green-500' },
+                                                    7: { label: 'Won', class: 'bg-green-600' },
+                                                    8: { label: 'Closed', class: 'bg-gray-500' }
+                                                };
+
+                                                const status = statusMap[data] || { label: 'Unknown', class: 'bg-gray-800' };
+                                                return `<span class="text-white text-xs font-medium px-2 py-1 rounded ${status.class}">${status.label}</span>`;
+                                            }
+                                        },
+                                        {
+                                            data: 'score',
+                                            render: function (data, type, row) {
+                                                let stars = '';
+                                                const score = parseInt(data) || 0;
+                                                for (let i = 1; i <= 5; i++) {
+                                                    if (i <= score) {
+                                                        stars += '<iconify-icon icon="emojione:star"></iconify-icon>'; // highlighted star
+                                                    } else {
+                                                        stars += '<iconify-icon icon="emojione-monotone:star" class="text-gray-100"></iconify-icon>'; // dimmed star
+                                                    }
+                                                }
+                                                return stars;
+                                            },
+                                            orderable: false,
+                                            searchable: false,
+                                        }
+                                        // { data: 'priority' },
+                                        // { data: 'emergency_contact_name' },
+                                        // { data: 'emergency_contact_phone' },
+                                        // { data: 'emergency_contact_address' },
+                                        // { data: 'remarks' },
+                                        // { data: 'added_to_waitlist' },
+                                        // { data: 'last_contact_datetime' },
+                                        // { data: 'contact_method' },
+                                        // { data: 'followup_reminder' },
+                                        // { data: 'contact_remarks' },
                                         // { data: 'created_at' },
                                         // { data: 'updated_at' }
                                     ],
+
                                     initComplete: function () {
                                         populateFilters(table);
                                     }
                                 });
 
-                                $('#statusFilter, #scoreFilter').on('change', function () {
+                                // Reload on filter change
+                                $('#statusFilter, #scoreFilter, #stateFilter, #suburbFilter').on('change', function () {
                                     table.ajax.reload();
                                 });
 
-                                  // Reset Filters
+                                // Reset Filters
                                 $('#resetFilters').click(function () {
-                                    $('#statusFilter, #scoreFilter').val('');
+                                    $('#statusFilter, #scoreFilter, #stateFilter, #suburbFilter').val('');
                                     table.ajax.reload();
                                 });
 
-                                function populateFilters(table) {
-                                    let statusSet = new Set();
-                                    let scoreSet = new Set();
 
-                                    table.data().each(function (row) {
-                                        if (row.lead_status !== null) statusSet.add(row.lead_status);
-                                        if (row.lead_score !== null) scoreSet.add(row.lead_score);
+                                function populateFilters() {
+                                    $.ajax({
+                                        url: '{{ route("leads.filters") }}',
+                                        method: 'GET',
+                                        success: function (data) {
+                                            // Clear old options
+                                            $('#statusFilter, #scoreFilter, #stateFilter, #suburbFilter').find('option:not(:first)').remove();
+
+                                            data.status.forEach(val => {
+                                                $('#statusFilter').append(`<option value="${val}">${val}</option>`);
+                                            });
+
+                                            data.score.forEach(val => {
+                                                $('#scoreFilter').append(`<option value="${val}">${val}</option>`);
+                                            });
+
+                                            data.state.forEach(val => {
+                                                $('#stateFilter').append(`<option value="${val}">${val}</option>`);
+                                            });
+
+                                            data.suburb.forEach(val => {
+                                                $('#suburbFilter').append(`<option value="${val}">${val}</option>`);
+                                            });
+                                        },
+                                        error: function () {
+                                            console.error('Failed to fetch filter options.');
+                                        }
                                     });
-
-                                    statusSet = Array.from(statusSet).sort((a, b) => a - b);
-                                    $('#statusFilter').append(statusSet.map(val => `<option value="${val}">${val}</option>`));
-
-                                    scoreSet = Array.from(scoreSet).sort((a, b) => a - b);
-                                    $('#scoreFilter').append(scoreSet.map(val => `<option value="${val}">${val}</option>`));
                                 }
+
+
                             });
                         </script>
                     @endpush

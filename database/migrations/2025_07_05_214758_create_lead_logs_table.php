@@ -16,114 +16,111 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('lead_id')->nullable();
 
-            // All fields from leads table
-            $table->string('lead_name')->nullable();
-            $table->string('lead_email')->nullable();
-            $table->string('lead_phone')->nullable();
-            $table->string('lead_country')->nullable();
-            $table->string('lead_street')->nullable();
-            $table->string('lead_suburb')->nullable();
-            $table->string('lead_state')->nullable();
-            $table->string('lead_postcode')->nullable();
-            $table->string('lead_storage_type')->nullable();
-            $table->string('lead_vehicle_type')->nullable();
-            $table->string('lead_rego_number')->nullable();
-            $table->integer('lead_status')->nullable();
-            $table->float('lead_score')->nullable();
-            $table->text('lead_photo')->nullable();
-            $table->text('lead_asset_photo')->nullable();
-            $table->text('lead_driver_license')->nullable();
-            $table->string('lead_emergency_contact_name')->nullable();
-            $table->string('lead_emergency_contact_phone')->nullable();
-            $table->string('lead_emergency_contact_address')->nullable();
-            $table->longText('lead_remarks')->nullable();
-            $table->dateTime('lead_last_contact_datetime')->nullable();
-            $table->string('lead_contact_method')->nullable();
-            $table->dateTime('lead_followup_reminder')->nullable();
-            $table->longText('lead_contact_remarks')->nullable();
+            // All updated fields from leads table
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->string('street')->nullable();
+            $table->string('suburb')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postcode')->nullable();
 
-            // Extra logging info
+            $table->integer('type')->nullable();
+            $table->string('storage_type')->nullable();
+            $table->string('vehicle_type')->nullable();
+            $table->string('vehicle_model')->nullable();
+            $table->string('vehicle_estimated_value')->nullable();
+            $table->string('rego_number')->nullable();
+            $table->integer('status')->nullable();
+            $table->integer('score')->nullable();
+            $table->integer('priority')->nullable();
+
+            $table->text('photo')->nullable();
+            $table->text('asset_photo')->nullable();
+            $table->text('driver_license')->nullable();
+
+            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_phone')->nullable();
+            $table->string('emergency_contact_address')->nullable();
+
+            $table->longText('remarks')->nullable();
+            $table->dateTime('added_to_waitlist')->nullable();
+            $table->dateTime('last_contact_datetime')->nullable();
+            $table->string('contact_method')->nullable();
+            $table->dateTime('followup_reminder')->nullable();
+            $table->longText('contact_remarks')->nullable();
+
             $table->enum('action_type', ['INSERT', 'UPDATE', 'DELETE']);
             $table->timestamp('logged_at')->useCurrent();
         });
 
-
-        // INSERT trigger
+        // Triggers
         DB::unprepared('
         CREATE TRIGGER after_leads_insert
         AFTER INSERT ON leads
         FOR EACH ROW
         INSERT INTO lead_logs (
-            lead_id, lead_name, lead_email, lead_phone, lead_country, lead_street,
-            lead_suburb, lead_state, lead_postcode, lead_storage_type, lead_vehicle_type,
-            lead_rego_number, lead_status, lead_score, lead_photo, lead_asset_photo,
-            lead_driver_license, lead_emergency_contact_name, lead_emergency_contact_phone,
-            lead_emergency_contact_address, lead_remarks, lead_last_contact_datetime,
-            lead_contact_method, lead_followup_reminder, lead_contact_remarks,
-            action_type, logged_at
+            lead_id, name, email, phone, country, street, suburb, state, postcode,
+            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
+            rego_number, status, score, priority, photo, asset_photo, driver_license,
+            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
+            remarks, added_to_waitlist, last_contact_datetime, contact_method,
+            followup_reminder, contact_remarks, action_type, logged_at
         )
         VALUES (
-            NEW.id, NEW.lead_name, NEW.lead_email, NEW.lead_phone, NEW.lead_country, NEW.lead_street,
-            NEW.lead_suburb, NEW.lead_state, NEW.lead_postcode, NEW.lead_storage_type, NEW.lead_vehicle_type,
-            NEW.lead_rego_number, NEW.lead_status, NEW.lead_score, NEW.lead_photo, NEW.lead_asset_photo,
-            NEW.lead_driver_license, NEW.lead_emergency_contact_name, NEW.lead_emergency_contact_phone,
-            NEW.lead_emergency_contact_address, NEW.lead_remarks, NEW.lead_last_contact_datetime,
-            NEW.lead_contact_method, NEW.lead_followup_reminder, NEW.lead_contact_remarks,
-            "INSERT", NOW()
+            NEW.id, NEW.name, NEW.email, NEW.phone, NEW.country, NEW.street, NEW.suburb, NEW.state, NEW.postcode,
+            NEW.type, NEW.storage_type, NEW.vehicle_type, NEW.vehicle_model, NEW.vehicle_estimated_value,
+            NEW.rego_number, NEW.status, NEW.score, NEW.priority, NEW.photo, NEW.asset_photo, NEW.driver_license,
+            NEW.emergency_contact_name, NEW.emergency_contact_phone, NEW.emergency_contact_address,
+            NEW.remarks, NEW.added_to_waitlist, NEW.last_contact_datetime, NEW.contact_method,
+            NEW.followup_reminder, NEW.contact_remarks, "INSERT", NOW()
         )
-    ');
+        ');
 
-        // UPDATE trigger
         DB::unprepared('
         CREATE TRIGGER after_leads_update
         AFTER UPDATE ON leads
         FOR EACH ROW
         INSERT INTO lead_logs (
-            lead_id, lead_name, lead_email, lead_phone, lead_country, lead_street,
-            lead_suburb, lead_state, lead_postcode, lead_storage_type, lead_vehicle_type,
-            lead_rego_number, lead_status, lead_score, lead_photo, lead_asset_photo,
-            lead_driver_license, lead_emergency_contact_name, lead_emergency_contact_phone,
-            lead_emergency_contact_address, lead_remarks, lead_last_contact_datetime,
-            lead_contact_method, lead_followup_reminder, lead_contact_remarks,
-            action_type, logged_at
+            lead_id, name, email, phone, country, street, suburb, state, postcode,
+            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
+            rego_number, status, score, priority, photo, asset_photo, driver_license,
+            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
+            remarks, added_to_waitlist, last_contact_datetime, contact_method,
+            followup_reminder, contact_remarks, action_type, logged_at
         )
         VALUES (
-            NEW.id, NEW.lead_name, NEW.lead_email, NEW.lead_phone, NEW.lead_country, NEW.lead_street,
-            NEW.lead_suburb, NEW.lead_state, NEW.lead_postcode, NEW.lead_storage_type, NEW.lead_vehicle_type,
-            NEW.lead_rego_number, NEW.lead_status, NEW.lead_score, NEW.lead_photo, NEW.lead_asset_photo,
-            NEW.lead_driver_license, NEW.lead_emergency_contact_name, NEW.lead_emergency_contact_phone,
-            NEW.lead_emergency_contact_address, NEW.lead_remarks, NEW.lead_last_contact_datetime,
-            NEW.lead_contact_method, NEW.lead_followup_reminder, NEW.lead_contact_remarks,
-            "UPDATE", NOW()
+            NEW.id, NEW.name, NEW.email, NEW.phone, NEW.country, NEW.street, NEW.suburb, NEW.state, NEW.postcode,
+            NEW.type, NEW.storage_type, NEW.vehicle_type, NEW.vehicle_model, NEW.vehicle_estimated_value,
+            NEW.rego_number, NEW.status, NEW.score, NEW.priority, NEW.photo, NEW.asset_photo, NEW.driver_license,
+            NEW.emergency_contact_name, NEW.emergency_contact_phone, NEW.emergency_contact_address,
+            NEW.remarks, NEW.added_to_waitlist, NEW.last_contact_datetime, NEW.contact_method,
+            NEW.followup_reminder, NEW.contact_remarks, "UPDATE", NOW()
         )
-    ');
+        ');
 
-        // DELETE trigger
         DB::unprepared('
         CREATE TRIGGER after_leads_delete
         AFTER DELETE ON leads
         FOR EACH ROW
         INSERT INTO lead_logs (
-            lead_id, lead_name, lead_email, lead_phone, lead_country, lead_street,
-            lead_suburb, lead_state, lead_postcode, lead_storage_type, lead_vehicle_type,
-            lead_rego_number, lead_status, lead_score, lead_photo, lead_asset_photo,
-            lead_driver_license, lead_emergency_contact_name, lead_emergency_contact_phone,
-            lead_emergency_contact_address, lead_remarks, lead_last_contact_datetime,
-            lead_contact_method, lead_followup_reminder, lead_contact_remarks,
-            action_type, logged_at
+            lead_id, name, email, phone, country, street, suburb, state, postcode,
+            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
+            rego_number, status, score, priority, photo, asset_photo, driver_license,
+            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
+            remarks, added_to_waitlist, last_contact_datetime, contact_method,
+            followup_reminder, contact_remarks, action_type, logged_at
         )
         VALUES (
-            OLD.id, OLD.lead_name, OLD.lead_email, OLD.lead_phone, OLD.lead_country, OLD.lead_street,
-            OLD.lead_suburb, OLD.lead_state, OLD.lead_postcode, OLD.lead_storage_type, OLD.lead_vehicle_type,
-            OLD.lead_rego_number, OLD.lead_status, OLD.lead_score, OLD.lead_photo, OLD.lead_asset_photo,
-            OLD.lead_driver_license, OLD.lead_emergency_contact_name, OLD.lead_emergency_contact_phone,
-            OLD.lead_emergency_contact_address, OLD.lead_remarks, OLD.lead_last_contact_datetime,
-            OLD.lead_contact_method, OLD.lead_followup_reminder, OLD.lead_contact_remarks,
-            "DELETE", NOW()
+            OLD.id, OLD.name, OLD.email, OLD.phone, OLD.country, OLD.street, OLD.suburb, OLD.state, OLD.postcode,
+            OLD.type, OLD.storage_type, OLD.vehicle_type, OLD.vehicle_model, OLD.vehicle_estimated_value,
+            OLD.rego_number, OLD.status, OLD.score, OLD.priority, OLD.photo, OLD.asset_photo, OLD.driver_license,
+            OLD.emergency_contact_name, OLD.emergency_contact_phone, OLD.emergency_contact_address,
+            OLD.remarks, OLD.added_to_waitlist, OLD.last_contact_datetime, OLD.contact_method,
+            OLD.followup_reminder, OLD.contact_remarks, "DELETE", NOW()
         )
-    ');
-
-
+        ');
     }
 
     /**
@@ -137,5 +134,4 @@ return new class extends Migration
 
         Schema::dropIfExists('lead_logs');
     }
-
 };

@@ -14,33 +14,41 @@ return new class extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
 
-            $table->string('lead_name');
-            $table->string('lead_email')->unique();
-            $table->string('lead_phone')->unique();
-            $table->string('lead_country')->nullable();
-            $table->string('lead_street')->nullable();
-            $table->string('lead_suburb')->nullable();
-            $table->string('lead_state')->nullable();
-            $table->string('lead_postcode')->nullable();
-            $table->string('lead_storage_type')->nullable();
-            $table->string('lead_vehicle_type')->nullable();
-            $table->string('lead_rego_number')->nullable();
-            $table->integer('lead_status')->nullable();
-            $table->float('lead_score')->nullable();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
+            $table->string('country')->nullable();
+            $table->string('street')->nullable();
+            $table->string('suburb')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postcode')->nullable();
 
-            $table->text('lead_photo')->nullable();
-            $table->text('lead_asset_photo')->nullable();
-            $table->text('lead_driver_license')->nullable();
+            $table->integer('type')->nullable(); // lead / wait list/ in contract
 
-            $table->string('lead_emergency_contact_name')->nullable();
-            $table->string('lead_emergency_contact_phone')->nullable();
-            $table->string('lead_emergency_contact_address')->nullable();
-            $table->longText('lead_remarks')->nullable();
+            $table->string('storage_type')->nullable();
+            $table->string('vehicle_type')->nullable();
+            $table->string('vehicle_model')->nullable(); // wait list
+            $table->string('vehicle_estimated_value')->nullable(); // wait list
+            $table->string('rego_number')->nullable();
+            $table->integer('status')->nullable();
+            $table->integer('score')->nullable();
+            $table->integer('priority')->nullable(); // wait list
 
-            $table->dateTime('lead_last_contact_datetime')->nullable();
-            $table->string('lead_contact_method')->nullable();
-            $table->dateTime('lead_followup_reminder')->nullable();
-            $table->longText('lead_contact_remarks')->nullable();
+            $table->text('photo')->nullable();
+            $table->text('asset_photo')->nullable();
+            $table->text('driver_license')->nullable();
+
+            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_phone')->nullable();
+            $table->string('emergency_contact_address')->nullable();
+
+            $table->longText('remarks')->nullable();
+
+            $table->dateTime('added_to_waitlist')->nullable();
+            $table->dateTime('last_contact_datetime')->nullable();
+            $table->string('contact_method')->nullable();
+            $table->dateTime('followup_reminder')->nullable();
+            $table->longText('contact_remarks')->nullable();
 
             $table->timestamps();
         });

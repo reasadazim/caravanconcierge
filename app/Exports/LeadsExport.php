@@ -20,16 +20,25 @@ class LeadsExport implements FromCollection, WithHeadings
     {
         $query = Leads::query();
 
-        if ($this->request->lead_status !== null) {
-            $query->where('lead_status', $this->request->lead_status);
+        if ($this->request->status !== null) {
+            $query->where('status', $this->request->status);
         }
 
-        if ($this->request->lead_score !== null) {
-            $query->where('lead_score', $this->request->lead_score);
+        if ($this->request->score !== null) {
+            $query->where('score', $this->request->score);
+        }
+
+        if ($this->request->state !== null) {
+            $query->where('state', $this->request->state);
+        }
+
+        if ($this->request->suburb !== null) {
+            $query->where('suburb', $this->request->suburb);
         }
 
         return $query->get();
     }
+
 
     public function headings(): array
     {

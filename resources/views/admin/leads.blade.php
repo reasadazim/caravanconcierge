@@ -16,6 +16,41 @@
 
 
                     <div class="row mb-3">
+                        <div class="col-12 text-end">
+                            <!-- Export to Excel -->
+                            <a href="{{ route("leads.export") }}" class="btn btn-secondary">
+                                <div class="flex items-center gap-2">
+                                    <iconify-icon icon="file-icons:microsoft-excel" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                Export
+                                </div>
+                            </a>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <div class="flex items-center gap-2">
+                                <iconify-icon icon="mingcute:user-add-line" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                Add New Lead
+                                </div>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-auto">
                             <select id="statusFilter" class="form-select">
                                 <option value="">Status</option>
@@ -44,7 +79,7 @@
 
                     <div class="table-responsive">
                         <div class="dataTables_wrapper">
-                            <table id="leads-table" class="table table-striped table-bordered" style="width:100%">
+                            <table id="leads-table" class="table table-striped table-bordered mt-3 mb-3" style="width:100%">
                                 <thead class="table-dark">
                                 <tr>
                                     {{--                                    <th>SL</th>--}}
@@ -108,16 +143,6 @@
                                     serverSide: true,
                                     responsive: true,
                                     dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>',
-                                    buttons: [
-                                        {
-                                            extend: 'excelHtml5',
-                                            text: 'Export Excel',
-                                            className: 'btn btn-success',
-                                            action: function (e, dt, button, config) {
-                                                window.location.href = '{{ route("leads.export") }}';
-                                            }
-                                        }
-                                    ],
                                     lengthMenu: [10, 25, 50, 100, 500, 1000, 5000, 10000],
                                     ajax: {
                                         url: '{{ route("leads.data") }}',
@@ -148,18 +173,18 @@
                                             data: 'status',
                                             render: function (data) {
                                                 const statusMap = {
-                                                    1: { label: 'New Lead', class: 'bg-blue-500' },
-                                                    2: { label: 'Contacted', class: 'bg-cyan-500' },
-                                                    3: { label: 'NR1', class: 'bg-yellow-500' },
-                                                    4: { label: 'NR2', class: 'bg-yellow-500' },
-                                                    5: { label: 'NR3', class: 'bg-yellow-500' },
-                                                    6: { label: 'Engaged', class: 'bg-green-500' },
+                                                    1: { label: 'New Lead', class: 'bg-zinc-600' },
+                                                    2: { label: 'Contacted', class: 'bg-blue-700' },
+                                                    3: { label: 'NR1', class: 'bg-orange-500' },
+                                                    4: { label: 'NR2', class: 'bg-yellow-600' },
+                                                    5: { label: 'NR3', class: 'bg-rose-500' },
+                                                    6: { label: 'Engaged', class: 'bg-violet-500' },
                                                     7: { label: 'Won', class: 'bg-green-600' },
-                                                    8: { label: 'Closed', class: 'bg-gray-500' }
+                                                    8: { label: 'Closed', class: 'bg-red-600' }
                                                 };
 
                                                 const status = statusMap[data] || { label: 'Unknown', class: 'bg-gray-800' };
-                                                return `<span class="text-white text-xs font-medium px-2 py-1 rounded ${status.class}">${status.label}</span>`;
+                                                return `<span class="text-white text-xs font-small px-2 py-1 rounded-full ${status.class}">${status.label}</span>`;
                                             }
                                         },
                                         {
@@ -169,16 +194,17 @@
                                                 const score = parseInt(data) || 0;
                                                 for (let i = 1; i <= 5; i++) {
                                                     if (i <= score) {
-                                                        stars += '<iconify-icon icon="emojione:star"></iconify-icon>'; // highlighted star
+                                                        stars += '<iconify-icon icon="emojione-monotone:star" class="text-amber-500 inline-block"></iconify-icon>';
                                                     } else {
-                                                        stars += '<iconify-icon icon="emojione-monotone:star" class="text-gray-100"></iconify-icon>'; // dimmed star
+                                                        stars += '<iconify-icon icon="emojione-monotone:star" class="text-gray-400 inline-block"></iconify-icon>';
                                                     }
                                                 }
-                                                return stars;
+                                                return `<span class="whitespace-nowrap">${stars}</span>`;
                                             },
                                             orderable: false,
                                             searchable: false,
                                         }
+
                                         // { data: 'priority' },
                                         // { data: 'emergency_contact_name' },
                                         // { data: 'emergency_contact_phone' },
@@ -218,8 +244,20 @@
                                             // Clear old options
                                             $('#statusFilter, #scoreFilter, #stateFilter, #suburbFilter').find('option:not(:first)').remove();
 
+                                            const statusLabels = {
+                                                1: 'New Lead',
+                                                2: 'Contacted',
+                                                3: 'NR1',
+                                                4: 'NR2',
+                                                5: 'NR3',
+                                                6: 'Engaged',
+                                                7: 'Won',
+                                                8: 'Closed'
+                                            };
+
                                             data.status.forEach(val => {
-                                                $('#statusFilter').append(`<option value="${val}">${val}</option>`);
+                                                const label = statusLabels[val] || val;
+                                                $('#statusFilter').append(`<option value="${val}">${label}</option>`);
                                             });
 
                                             data.score.forEach(val => {

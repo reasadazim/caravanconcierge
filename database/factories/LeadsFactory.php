@@ -30,8 +30,8 @@ class LeadsFactory extends Factory
             'vehicle_model' => $this->faker->word,
             'vehicle_estimated_value' => (string) $this->faker->numberBetween(5000, 100000),
             'rego_number' => strtoupper($this->faker->bothify('???-####')), // e.g. ABC-1234
-            'status' => $this->faker->numberBetween(0, 8),
-            'score' => $this->faker->numberBetween(0, 5),
+            'status' => $this->faker->numberBetween(1, 8),
+            'score' => $this->faker->numberBetween(1, 5),
             'priority' => $this->faker->numberBetween(1, 5),
 
             'photo' => null,

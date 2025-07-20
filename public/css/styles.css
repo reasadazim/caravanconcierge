@@ -22,15 +22,15 @@ table.dataTable thead .sorting_desc:after {
     white-space: nowrap;
     font-size: 12px;
 }
-input#dt-search-0 {
-    border: 1px solid #dfdfdf !important;
-    border-radius: 5px !important;
-}
-@media screen and (max-width: 992px) {
-    #statusFilter, #scoreFilter{
-        margin-bottom: 10px !important;
-    }
-    button#resetFilters {
-        float: right;
-    }
-}
+/*input#dt-search-0 {*/
+/*    border: 1px solid #dfdfdf !important;*/
+/*    border-radius: 5px !important;*/
+/*}*/
+/*@media screen and (max-width: 992px) {*/
+/*    #statusFilter, #scoreFilter{*/
+/*        margin-bottom: 10px !important;*/
+/*    }*/
+/*    button#resetFilters {*/
+/*        float: right;*/
+/*    }*/
+/*}*/

@@ -27,6 +27,7 @@ class LeadsFactory extends Factory
             'type' => $this->faker->randomElement([0, 1, 2]), // lead / wait list / in contract
             'storage_type' => $this->faker->randomElement(['Outdoor', 'Covered', 'Indoor']),
             'vehicle_type' => $this->faker->randomElement(['Caravan', 'Boat', 'Jetski', 'Motorhome', 'Trailer']),
+            'vehicle_length' => $this->faker->randomFloat(1, 2.0, 12.0),
             'vehicle_model' => $this->faker->word,
             'vehicle_estimated_value' => (string) $this->faker->numberBetween(5000, 100000),
             'rego_number' => strtoupper($this->faker->bothify('???-####')), // e.g. ABC-1234

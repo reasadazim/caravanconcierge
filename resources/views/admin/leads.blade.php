@@ -1,14 +1,24 @@
 <x-layouts.app>
-
-    <div class="mb-6">
-        <div class="flex items-center gap-2">
-            <iconify-icon icon="mynaui:users" class="w-6 h-6 text-gray-800 dark:text-gray-100 text-2xl"></iconify-icon>
-            <h1 class="text-2xl text-gray-800 dark:text-gray-100">{{ __('Leads') }}</h1>
-        </div>
-
-        {{--        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Welcome to the dashboard') }}</p>--}}
+    <!-- Breadcrumbs -->
+    <div class="mb-3 flex items-center text-sm">
+        <a href="{{ route('dashboard') }}"
+           class="text-blue-600 dark:text-blue-400 hover:underline">{{ __('Dashboard') }}</a>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <span class="text-gray-500 dark:text-gray-400">{{ __('Leads') }}</span>
     </div>
 
+    <!-- Page Title -->
+    <div class="mb-6">
+        <div class="flex items-center gap-2">
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ __('Leads') }}</h1>
+        </div>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ __('Manage your leads here.') }}</p>
+    </div>
+
+    <!-- Page Content -->
     <div class="py-6">
         <div class="max-w-12xl mx-auto sm:px-0 lg:px-0">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
@@ -17,36 +27,185 @@
 
                     <div class="row mb-3">
                         <div class="col-12 text-end">
-                            <!-- Export to Excel -->
-                            <a href="{{ route("leads.export") }}" class="btn btn-secondary">
+                            <!-- Import Excel -->
+                            <a href="#" class="btn btn-dark">
                                 <div class="flex items-center gap-2">
-                                    <iconify-icon icon="file-icons:microsoft-excel" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
-                                Export
+                                    <iconify-icon icon="mdi:database-import-outline" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                    Import
+                                </div>
+                            </a>
+                            <!-- Export Excel -->
+                            <a href="{{ route("leads.export") }}" class="btn btn-dark">
+                                <div class="flex items-center gap-2">
+                                    <iconify-icon icon="mdi:microsoft-excel" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                    Export
                                 </div>
                             </a>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <div class="flex items-center gap-2">
-                                <iconify-icon icon="mingcute:user-add-line" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
-                                Add New Lead
+                                    <iconify-icon icon="mingcute:user-add-line" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                    Add New Lead
                                 </div>
                             </button>
+                        </div>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            ...
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 font-bold" id="exampleModalLabel">Add New Lead</h1>
+                                        <button type="button" class="btn-close red" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        {{-- Add Lead Form --}}
+                                        <form action="#" method="POST" class="container mt-1">
+                                            @csrf
+
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Name <span class="required">*</span></label>
+                                                    <input type="text" name="name" class="form-control" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Email <span class="required">*</span></label>
+                                                    <input type="email" name="email" class="form-control" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Phone <span class="required">*</span></label>
+                                                    <input type="text" name="phone" class="form-control" required>
+                                                </div>
+
+                                                <input type="text" name="country" value="Australia" class="form-control" required hidden="">
+
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Street</label>
+                                                    <input type="text" name="street" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Suburb</label>
+                                                    <input type="text" name="suburb" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">State</label>
+                                                    <select name="state" class="form-select">
+                                                        <option value="">Select State</option>
+                                                        <option value="NSW">NSW</option>
+                                                        <option value="VIC">VIC</option>
+                                                        <option value="QLD">QLD</option>
+                                                        <option value="SA">SA</option>
+                                                        <option value="WA">WA</option>
+                                                        <option value="TAS">TAS</option>
+                                                        <option value="NT">NT</option>
+                                                        <option value="ACT">ACT</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Postcode</label>
+                                                    <input type="text" name="postcode" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Storage Type</label>
+                                                    <select name="storage_type" class="form-select">
+                                                        <option value="">Select Storage Type</option>
+                                                        <option value="Outdoor">Outdoor</option>
+                                                        <option value="Covered">Covered</option>
+                                                        <option value="Indoor">Indoor</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Vehicle Type</label>
+                                                    <select name="vehicle_type" class="form-select">
+                                                        <option value="">Select Vehicle Type</option>
+                                                        <option value="Caravan">Caravan</option>
+                                                        <option value="Boat">Boat</option>
+                                                        <option value="Jetski">Jetski</option>
+                                                        <option value="Motorhome">Motorhome</option>
+                                                        <option value="Trailer">Trailer</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Vehicle Model</label>
+                                                    <input type="text" name="vehicle_model" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Vehicle Length</label>
+                                                    <input type="number" name="vehicle_length" class="form-control" step="0.01">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Rego Number</label>
+                                                    <input type="text" name="rego_number" class="form-control">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Status</label>
+                                                    <select name="status" class="form-select">
+                                                        <option value="">Select Status</option>
+                                                        <option value="1">New Lead</option>
+                                                        <option value="2">Contacted</option>
+                                                        <option value="3">NR1</option>
+                                                        <option value="4">NR2</option>
+                                                        <option value="5">NR3</option>
+                                                        <option value="6">Engaged</option>
+                                                        <option value="7">Won</option>
+                                                        <option value="8">Closed</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Score</label>
+                                                    <select name="score" class="form-select">
+                                                        <option value="">Select Score</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="formFile" class="form-label">Photo</label>
+                                                    <input class="form-control" name="photo" type="file" id="formFile">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="formFile" class="form-label">Asset Photos</label>
+                                                    <input class="form-control" name="asset_photo" type="file" id="formFile">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label for="formFile" class="form-label">Driver License</label>
+                                                    <input class="form-control" name="driver_license" type="file" id="formFile">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Emergency Contact Name</label>
+                                                    <input type="text" name="emergency_contact_name" class="form-control">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Emergency Contact Phone</label>
+                                                    <input type="text" name="emergency_contact_phone" class="form-control">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Emergency Contact Address</label>
+                                                    <input type="text" name="emergency_contact_address" class="form-control">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Remarks</label>
+                                                    <textarea name="remarks" rows="3" class="form-control"></textarea>
+                                                </div>
+
+                                                <div class="col-12 text-end">
+                                                    <button type="submit" class="btn btn-primary mt-3">
+                                                        <div class="flex items-center gap-2">
+                                                            <iconify-icon icon="lucide:save" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                                            Save
+                                                        </div>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +231,12 @@
                             </select>
                         </div>
                         <div class="col-auto">
-                            <button id="resetFilters" class="btn btn-secondary">Reset</button>
+                            <button id="resetFilters" class="btn btn-dark">
+                                <div class="flex items-center gap-2">
+                                    <iconify-icon icon="ri:reset-right-fill" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                    Reset
+                                </div>
+                            </button>
                         </div>
 
                     </div>
@@ -142,7 +306,7 @@
                                     processing: true,
                                     serverSide: true,
                                     responsive: true,
-                                    dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>',
+                                    // dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>', // show export button - only filtered data
                                     lengthMenu: [10, 25, 50, 100, 500, 1000, 5000, 10000],
                                     ajax: {
                                         url: '{{ route("leads.data") }}',

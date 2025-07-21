@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('lead_id')->nullable();
 
-            // All updated fields from leads table
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
@@ -29,6 +28,7 @@ return new class extends Migration
             $table->integer('type')->nullable();
             $table->string('storage_type')->nullable();
             $table->string('vehicle_type')->nullable();
+            $table->float('vehicle_length')->nullable(); // <- Newly added
             $table->string('vehicle_model')->nullable();
             $table->string('vehicle_estimated_value')->nullable();
             $table->string('rego_number')->nullable();
@@ -56,71 +56,36 @@ return new class extends Migration
         });
 
         // Triggers
-        DB::unprepared('
-        CREATE TRIGGER after_leads_insert
-        AFTER INSERT ON leads
-        FOR EACH ROW
-        INSERT INTO lead_logs (
-            lead_id, name, email, phone, country, street, suburb, state, postcode,
-            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
-            rego_number, status, score, priority, photo, asset_photo, driver_license,
-            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
-            remarks, added_to_waitlist, last_contact_datetime, contact_method,
-            followup_reminder, contact_remarks, action_type, logged_at
-        )
-        VALUES (
-            NEW.id, NEW.name, NEW.email, NEW.phone, NEW.country, NEW.street, NEW.suburb, NEW.state, NEW.postcode,
-            NEW.type, NEW.storage_type, NEW.vehicle_type, NEW.vehicle_model, NEW.vehicle_estimated_value,
-            NEW.rego_number, NEW.status, NEW.score, NEW.priority, NEW.photo, NEW.asset_photo, NEW.driver_license,
-            NEW.emergency_contact_name, NEW.emergency_contact_phone, NEW.emergency_contact_address,
-            NEW.remarks, NEW.added_to_waitlist, NEW.last_contact_datetime, NEW.contact_method,
-            NEW.followup_reminder, NEW.contact_remarks, "INSERT", NOW()
-        )
-        ');
+        foreach (['INSERT', 'UPDATE', 'DELETE'] as $action) {
+            $when = $action === 'DELETE' ? 'OLD' : 'NEW';
+            $columns = implode(', ', [
+                'lead_id', 'name', 'email', 'phone', 'country', 'street', 'suburb', 'state', 'postcode',
+                'type', 'storage_type', 'vehicle_type', 'vehicle_length', 'vehicle_model', 'vehicle_estimated_value',
+                'rego_number', 'status', 'score', 'priority', 'photo', 'asset_photo', 'driver_license',
+                'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address',
+                'remarks', 'added_to_waitlist', 'last_contact_datetime', 'contact_method',
+                'followup_reminder', 'contact_remarks', 'action_type', 'logged_at'
+            ]);
 
-        DB::unprepared('
-        CREATE TRIGGER after_leads_update
-        AFTER UPDATE ON leads
-        FOR EACH ROW
-        INSERT INTO lead_logs (
-            lead_id, name, email, phone, country, street, suburb, state, postcode,
-            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
-            rego_number, status, score, priority, photo, asset_photo, driver_license,
-            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
-            remarks, added_to_waitlist, last_contact_datetime, contact_method,
-            followup_reminder, contact_remarks, action_type, logged_at
-        )
-        VALUES (
-            NEW.id, NEW.name, NEW.email, NEW.phone, NEW.country, NEW.street, NEW.suburb, NEW.state, NEW.postcode,
-            NEW.type, NEW.storage_type, NEW.vehicle_type, NEW.vehicle_model, NEW.vehicle_estimated_value,
-            NEW.rego_number, NEW.status, NEW.score, NEW.priority, NEW.photo, NEW.asset_photo, NEW.driver_license,
-            NEW.emergency_contact_name, NEW.emergency_contact_phone, NEW.emergency_contact_address,
-            NEW.remarks, NEW.added_to_waitlist, NEW.last_contact_datetime, NEW.contact_method,
-            NEW.followup_reminder, NEW.contact_remarks, "UPDATE", NOW()
-        )
-        ');
+            $values = implode(', ', [
+                "$when.id", "$when.name", "$when.email", "$when.phone", "$when.country", "$when.street",
+                "$when.suburb", "$when.state", "$when.postcode", "$when.type", "$when.storage_type",
+                "$when.vehicle_type", "$when.vehicle_length", "$when.vehicle_model", "$when.vehicle_estimated_value",
+                "$when.rego_number", "$when.status", "$when.score", "$when.priority", "$when.photo",
+                "$when.asset_photo", "$when.driver_license", "$when.emergency_contact_name",
+                "$when.emergency_contact_phone", "$when.emergency_contact_address", "$when.remarks",
+                "$when.added_to_waitlist", "$when.last_contact_datetime", "$when.contact_method",
+                "$when.followup_reminder", "$when.contact_remarks", "'$action'", "NOW()"
+            ]);
 
-        DB::unprepared('
-        CREATE TRIGGER after_leads_delete
-        AFTER DELETE ON leads
-        FOR EACH ROW
-        INSERT INTO lead_logs (
-            lead_id, name, email, phone, country, street, suburb, state, postcode,
-            type, storage_type, vehicle_type, vehicle_model, vehicle_estimated_value,
-            rego_number, status, score, priority, photo, asset_photo, driver_license,
-            emergency_contact_name, emergency_contact_phone, emergency_contact_address,
-            remarks, added_to_waitlist, last_contact_datetime, contact_method,
-            followup_reminder, contact_remarks, action_type, logged_at
-        )
-        VALUES (
-            OLD.id, OLD.name, OLD.email, OLD.phone, OLD.country, OLD.street, OLD.suburb, OLD.state, OLD.postcode,
-            OLD.type, OLD.storage_type, OLD.vehicle_type, OLD.vehicle_model, OLD.vehicle_estimated_value,
-            OLD.rego_number, OLD.status, OLD.score, OLD.priority, OLD.photo, OLD.asset_photo, OLD.driver_license,
-            OLD.emergency_contact_name, OLD.emergency_contact_phone, OLD.emergency_contact_address,
-            OLD.remarks, OLD.added_to_waitlist, OLD.last_contact_datetime, OLD.contact_method,
-            OLD.followup_reminder, OLD.contact_remarks, "DELETE", NOW()
-        )
-        ');
+            DB::unprepared("
+                CREATE TRIGGER after_leads_" . strtolower($action) . "
+                AFTER $action ON leads
+                FOR EACH ROW
+                INSERT INTO lead_logs ($columns)
+                VALUES ($values)
+            ");
+        }
     }
 
     /**

@@ -27,6 +27,7 @@ return new class extends Migration
 
             $table->string('storage_type')->nullable();
             $table->string('vehicle_type')->nullable();
+            $table->float('vehicle_length')->nullable();
             $table->string('vehicle_model')->nullable(); // wait list
             $table->string('vehicle_estimated_value')->nullable(); // wait list
             $table->string('rego_number')->nullable();

@@ -34,3 +34,12 @@ table.dataTable thead .sorting_desc:after {
 /*        float: right;*/
 /*    }*/
 /*}*/
+
+
+/* Form */
+.required{
+    color: #ce0000;
+}
+.btn-close.red {
+    filter: invert(34%) sepia(96%) saturate(7471%) hue-rotate(358deg) brightness(96%) contrast(112%);
+}

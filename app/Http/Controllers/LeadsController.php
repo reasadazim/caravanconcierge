@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Exports\LeadsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class LeadsController extends Controller
 {
@@ -54,6 +55,91 @@ class LeadsController extends Controller
             'suburb' => Leads::whereNotNull('suburb')->distinct()->orderBy('suburb')->pluck('suburb'),
         ]);
     }
+
+
+    // Add a new lead
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:leads,email',
+            'phone' => 'required|string|unique:leads,phone',
+            'country' => 'nullable|string',
+            'street' => 'nullable|string',
+            'suburb' => 'nullable|string',
+            'state' => 'nullable|string',
+            'postcode' => 'nullable|string',
+            'storage_type' => 'nullable|string',
+            'vehicle_type' => 'nullable|string',
+            'vehicle_model' => 'nullable|string',
+            'vehicle_length' => 'nullable|numeric',
+            'rego_number' => 'nullable|string',
+            'status' => 'nullable|integer',
+            'score' => 'nullable|integer',
+            'emergency_contact_name' => 'nullable|string',
+            'emergency_contact_phone' => 'nullable|string',
+            'emergency_contact_address' => 'nullable|string',
+            'remarks' => 'nullable|string',
+            'photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'asset_photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'driver_license' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+
+        $lead = new Leads();
+
+        // Basic Fields
+        $lead->name = $request->name;
+        $lead->email = $request->email;
+        $lead->phone = $request->phone;
+        $lead->country = $request->country ?? 'Australia';
+        $lead->street = $request->street;
+        $lead->suburb = $request->suburb;
+        $lead->state = $request->state;
+        $lead->postcode = $request->postcode;
+        $lead->storage_type = $request->storage_type;
+        $lead->vehicle_type = $request->vehicle_type;
+        $lead->vehicle_model = $request->vehicle_model;
+        $lead->vehicle_length = $request->vehicle_length;
+        $lead->rego_number = $request->rego_number;
+        $lead->status = $request->status;
+        $lead->score = $request->score;
+        $lead->emergency_contact_name = $request->emergency_contact_name;
+        $lead->emergency_contact_phone = $request->emergency_contact_phone;
+        $lead->emergency_contact_address = $request->emergency_contact_address;
+        $lead->remarks = $request->remarks;
+
+        // Single photo upload
+        if ($request->hasFile('photo')) {
+            $lead->photo = $request->file('photo')->store('uploads/photos', 'public');
+        }
+
+        // Multiple Asset Photos
+        $assetPhotos = [];
+        if ($request->hasFile('asset_photo')) {
+            foreach ($request->file('asset_photo') as $file) {
+                $assetPhotos[] = $file->store('uploads/assets', 'public');
+            }
+        }
+        $lead->asset_photo = serialize($assetPhotos);
+
+        // Multiple Driver Licenses
+        $driverLicenses = [];
+        if ($request->hasFile('driver_license')) {
+            foreach ($request->file('driver_license') as $file) {
+                $driverLicenses[] = $file->store('uploads/licenses', 'public');
+            }
+        }
+        $lead->driver_license = serialize($driverLicenses);
+
+        $lead->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lead added successfully.',
+        ]);
+    }
+
+
 
 
 

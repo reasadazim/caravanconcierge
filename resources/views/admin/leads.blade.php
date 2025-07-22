@@ -61,7 +61,7 @@
                                     <div class="modal-body">
 
                                         {{-- Add Lead Form --}}
-                                        <form action="#" method="POST" class="container mt-1">
+                                        <form action="{{ route('leads.store') }}" method="POST" class="container mt-1" enctype="multipart/form-data">
                                             @csrf
 
                                             <div class="row g-3">
@@ -167,13 +167,15 @@
                                                     <label for="formFile" class="form-label">Photo</label>
                                                     <input class="form-control" name="photo" type="file" id="formFile">
                                                 </div>
+
                                                 <div class="col-md-12">
-                                                    <label for="formFile" class="form-label">Asset Photos</label>
-                                                    <input class="form-control" name="asset_photo" type="file" id="formFile">
+                                                    <label for="formFileMultiple" class="form-label">Asset Photos</label>
+                                                    <input class="form-control" name="asset_photo[]" type="file" id="formFileMultiple" multiple>
                                                 </div>
+
                                                 <div class="col-md-12">
-                                                    <label for="formFile" class="form-label">Driver License</label>
-                                                    <input class="form-control" name="driver_license" type="file" id="formFile">
+                                                    <label for="formFileMultiple1" class="form-label">Driver License</label>
+                                                    <input class="form-control" name="driver_license[]" type="file" id="formFileMultiple1" multiple>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label">Emergency Contact Name</label>
@@ -203,8 +205,6 @@
 
                                             </div>
                                         </form>
-
-
 
                                     </div>
                                 </div>
@@ -282,6 +282,18 @@
                         </div>
                     </div>
 
+                    {{-- Toast message --}}
+                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+                        <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    Form submitted successfully!
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+
 
                     @push('scripts')
 
@@ -301,8 +313,9 @@
 
 
                         <script>
+                            let table;
                             $(function () {
-                                let table = $('#leads-table').DataTable({
+                                table = $('#leads-table').DataTable({
                                     processing: true,
                                     serverSide: true,
                                     responsive: true,
@@ -443,6 +456,66 @@
                                 }
 
 
+                            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            document.addEventListener("DOMContentLoaded", function () {
+                                const form = document.querySelector('form[action="{{ route('leads.store') }}"]');
+
+                                form.addEventListener("submit", function (e) {
+                                    e.preventDefault();
+
+                                    const formData = new FormData(form);
+
+                                    fetch(form.action, {
+                                        method: "POST",
+                                        headers: {
+                                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                                        },
+                                        body: formData
+                                    })
+                                        .then(response => {
+                                            if (!response.ok) throw new Error('Form submission failed');
+                                            return response.json();
+                                        })
+                                        .then(data => {
+                                            // Set toast message from response
+                                            const toastBody = document.querySelector('#successToast .toast-body');
+                                            toastBody.textContent = data.message || 'Form submitted successfully.';
+
+                                            // Show toast
+                                            const toastEl = document.getElementById('successToast');
+                                            const toast = new bootstrap.Toast(toastEl);
+                                            toast.show();
+
+                                            // Hide modal (assuming modal ID is #leadModal)
+                                            const modalEl = document.getElementById('exampleModal');
+                                            const modal = bootstrap.Modal.getInstance(modalEl); // get existing modal instance
+                                            if (modal) modal.hide();
+
+                                            table.ajax.reload();
+
+                                            form.reset(); // Clear form
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                            alert("There was an error submitting the form.");
+                                        });
+                                });
                             });
                         </script>
                     @endpush

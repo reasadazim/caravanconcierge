@@ -143,4 +143,82 @@ class LeadsController extends Controller
 
 
 
+
+
+
+
+
+
+    public function show($id)
+    {
+        return Leads::findOrFail($id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $lead = Leads::findOrFail($id);
+
+        // Manually assign fields one by one
+        $lead->name = $request->input('name');
+        $lead->email = $request->input('email');
+        $lead->phone = $request->input('phone');
+        $lead->country = $request->input('country', 'Australia');
+        $lead->street = $request->input('street');
+        $lead->suburb = $request->input('suburb');
+        $lead->state = $request->input('state');
+        $lead->postcode = $request->input('postcode');
+        $lead->storage_type = $request->input('storage_type');
+        $lead->vehicle_type = $request->input('vehicle_type');
+        $lead->vehicle_model = $request->input('vehicle_model');
+        $lead->vehicle_length = $request->input('vehicle_length');
+        $lead->rego_number = $request->input('rego_number');
+        $lead->status = $request->input('status');
+        $lead->score = $request->input('score');
+        $lead->emergency_contact_name = $request->input('emergency_contact_name');
+        $lead->emergency_contact_phone = $request->input('emergency_contact_phone');
+        $lead->emergency_contact_address = $request->input('emergency_contact_address');
+        $lead->remarks = $request->input('remarks');
+
+        // Handle photo upload if exists
+        if ($request->hasFile('photo')) {
+            $lead->photo = $request->file('photo')->store('uploads/photos', 'public');
+        }
+
+        // Handle multiple asset photos (serialized)
+        if ($request->hasFile('asset_photo')) {
+            $assetPhotos = [];
+            foreach ($request->file('asset_photo') as $file) {
+                $assetPhotos[] = $file->store('uploads/assets', 'public');
+            }
+            $lead->asset_photo = serialize($assetPhotos);
+        }
+
+        // Handle multiple driver licenses (serialized)
+        if ($request->hasFile('driver_license')) {
+            $driverLicenses = [];
+            foreach ($request->file('driver_license') as $file) {
+                $driverLicenses[] = $file->store('uploads/licenses', 'public');
+            }
+            $lead->driver_license = serialize($driverLicenses);
+        }
+
+        $lead->save();
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function destroy($id)
+    {
+        Leads::destroy($id);
+        return response()->json(['success' => true]);
+    }
+
+
+
+
+
+
+
+
 }

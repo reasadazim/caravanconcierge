@@ -32,6 +32,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/leads/filters', [LeadsController::class, 'getFilterOptions'])->name('leads.filters');
     Route::post('/leads/store', [LeadsController::class, 'store'])->name('leads.store');
 
+Route::get('/leads/{id}', [LeadsController::class, 'show']);
+Route::put('/leads/update/{id}', [LeadsController::class, 'update'])->name('leads.update');
+Route::delete('/leads/{id}', [LeadsController::class, 'destroy']);
+
+
 
 
 

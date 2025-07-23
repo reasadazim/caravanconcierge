@@ -151,7 +151,43 @@ class LeadsController extends Controller
 
     public function show($id)
     {
-        return Leads::findOrFail($id);
+        $lead = Leads::findOrFail($id);
+
+        $assetPhotos = $lead->asset_photo;
+        if (!is_array($assetPhotos)) {
+            $assetPhotos = @unserialize($assetPhotos) ?: [];
+        }
+
+        $driverLicensePhotos = $lead->driver_license;
+        if (!is_array($driverLicensePhotos)) {
+            $driverLicensePhotos = @unserialize($driverLicensePhotos) ?: [];
+        }
+
+        return response()->json([
+            'id' => $lead->id,
+            'name' => $lead->name,
+            'email' => $lead->email,
+            'phone' => $lead->phone,
+            'country' => $lead->country,
+            'street' => $lead->street,
+            'suburb' => $lead->suburb,
+            'state' => $lead->state,
+            'postcode' => $lead->postcode,
+            'storage_type' => $lead->storage_type,
+            'vehicle_type' => $lead->vehicle_type,
+            'vehicle_model' => $lead->vehicle_model,
+            'vehicle_length' => $lead->vehicle_length,
+            'rego_number' => $lead->rego_number,
+            'status' => $lead->status,
+            'score' => $lead->score,
+            'emergency_contact_name' => $lead->emergency_contact_name,
+            'emergency_contact_phone' => $lead->emergency_contact_phone,
+            'emergency_contact_address' => $lead->emergency_contact_address,
+            'remarks' => $lead->remarks,
+            'photo' => $lead->photo,
+            'asset_photos' => $assetPhotos,
+            'driver_license_photos' => $driverLicensePhotos,
+        ]);
     }
 
     public function update(Request $request, $id)

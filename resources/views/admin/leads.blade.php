@@ -358,11 +358,65 @@
 
                     {{-- Edit Lead Form --}}
 
-                    <div class="modal fade" id="editLeadModal" tabindex="-1" aria-labelledby="editLeadModalLabel" aria-hidden="true">
+
+                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                        <div class="modal-dialog modal-lg"> <!-- Made it larger -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalToggleLabel">Lead Information</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Loader -->
+                                    <div id="showLeadLoading" class="text-center py-4">
+                                        <div class="spinner-border text-primary"></div>
+                                        <p class="mt-3">Loading lead data...</p>
+                                    </div>
+
+                                    <!-- Lead Info Table -->
+                                    <div id="showLeadContent" style="display: none;">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                            <tr><th>Name</th><td id="showLeadName"></td></tr>
+                                            <tr><th>Email</th><td id="showLeadEmail"></td></tr>
+                                            <tr><th>Phone</th><td id="showLeadPhone"></td></tr>
+                                            <tr><th>Country</th><td id="showLeadCountry"></td></tr>
+                                            <tr><th>Street</th><td id="showLeadStreet"></td></tr>
+                                            <tr><th>Suburb</th><td id="showLeadSuburb"></td></tr>
+                                            <tr><th>State</th><td id="showLeadState"></td></tr>
+                                            <tr><th>Postcode</th><td id="showLeadPostcode"></td></tr>
+                                            <tr><th>Storage Type</th><td id="showLeadStorageType"></td></tr>
+                                            <tr><th>Vehicle Type</th><td id="showLeadVehicleType"></td></tr>
+                                            <tr><th>Vehicle Model</th><td id="showLeadVehicleModel"></td></tr>
+                                            <tr><th>Vehicle Length</th><td id="showLeadVehicleLength"></td></tr>
+                                            <tr><th>Rego Number</th><td id="showLeadRegoNumber"></td></tr>
+                                            <tr><th>Status</th><td id="showLeadStatus"></td></tr>
+                                            <tr><th>Score</th><td id="showLeadScore"></td></tr>
+                                            <tr><th>Photo</th><td id="showLeadPhoto"></td></tr>
+                                            <tr><th>Asset Photos</th><td id="showLeadAssetPhotos"></td></tr>
+                                            <tr><th>Driver License</th><td id="showLeadDriverLicense"></td></tr>
+                                            <tr><th>Emergency Contact Name</th><td id="showLeadEmergencyContactName"></td></tr>
+                                            <tr><th>Emergency Contact Phone</th><td id="showLeadEmergencyContactPhone"></td></tr>
+                                            <tr><th>Emergency Contact Address</th><td id="showLeadEmergencyContactAddress"></td></tr>
+                                            <tr><th>Remarks</th><td id="showLeadRemarks"></td></tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <input type="hidden" id="showLeadId">
+                                <div class="modal-footer">
+                                    <button id="openEditLeadBtn" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5 font-bold" id="exampleModalLabel">Edit Lead</h1>
+                                    <h5 class="modal-title" id="exampleModalToggleLabel2">Edit Lead</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -477,6 +531,20 @@
                                                         <option value="5">5</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-md-12">
+                                                    <label for="formFile" class="form-label">Photo</label>
+                                                    <input class="form-control" name="photo" type="file" id="formFile">
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label for="formFileMultiple" class="form-label">Asset Photos</label>
+                                                    <input class="form-control" name="asset_photo[]" type="file" id="formFileMultiple" multiple>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label for="formFileMultiple1" class="form-label">Driver License</label>
+                                                    <input class="form-control" name="driver_license[]" type="file" id="formFileMultiple1" multiple>
+                                                </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label">Emergency Contact Name</label>
                                                     <input type="text" name="emergency_contact_name" id="edit_emergency_contact_name" class="form-control">
@@ -495,12 +563,17 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="modal-footer justify-content-between">
+                                            <button class="btn btn-dark" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">
+                                                <div class="flex items-center gap-2">
+                                                    <iconify-icon icon="ri:arrow-go-back-line" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
+                                                    Back
+                                                </div>
+                                            </button>
                                             <button type="button" id="deleteLeadBtn" class="btn btn-danger">
                                                 <div class="flex items-center gap-2">
                                                     <iconify-icon icon="material-symbols:delete-outline" class="text-xl text-neutral-50 dark:text-neutral-50"></iconify-icon>
-                                                    Update
+                                                    Delete
                                                 </div>
                                             </button>
                                             <button type="submit" class="btn btn-primary">
@@ -515,6 +588,9 @@
                             </div>
                         </div>
                     </div>
+
+
+
 
                     {{-- END - Edit Lead Form --}}
 
@@ -537,6 +613,7 @@
                         <script>
 
                             // ################################ Lead List ################################
+
                             let table;
                             $(function () {
                                 table = $('#leads-table').DataTable({
@@ -559,7 +636,7 @@
                                         {
                                             data: 'name',
                                             render: function (data, type, row) {
-                                                return `<a href="#" class="edit-lead-link text-blue-600" data-id="${row.id}">${data}</a>`;
+                                                return `<a href="#" class="show-lead-link text-blue-600" data-id="${row.id}">${data}</a>`;
                                             }
                                         },
                                         { data: 'email' },
@@ -579,18 +656,19 @@
                                             data: 'status',
                                             render: function (data) {
                                                 const statusMap = {
-                                                    1: { label: 'New Lead', class: 'bg-zinc-600' },
-                                                    2: { label: 'Contacted', class: 'bg-blue-700' },
-                                                    3: { label: 'NR1', class: 'bg-orange-500' },
-                                                    4: { label: 'NR2', class: 'bg-yellow-600' },
-                                                    5: { label: 'NR3', class: 'bg-rose-500' },
+                                                    1: { label: 'New Lead', class: 'bg-sky-700' },
+                                                    2: { label: 'Contacted', class: 'bg-teal-700' },
+                                                    3: { label: 'NR1', class: 'bg-emerald-500' },
+                                                    4: { label: 'NR2', class: 'bg-slate-600' },
+                                                    5: { label: 'NR3', class: 'bg-indigo-500' },
                                                     6: { label: 'Engaged', class: 'bg-violet-500' },
                                                     7: { label: 'Won', class: 'bg-green-600' },
-                                                    8: { label: 'Closed', class: 'bg-red-600' }
+                                                    8: { label: 'Closed', class: 'bg-rose-600' }
                                                 };
 
                                                 const status = statusMap[data] || { label: 'Unknown', class: 'bg-gray-800' };
-                                                return `<span class="text-white text-xs font-small px-2 py-1 rounded-full ${status.class}">${status.label}</span>`;
+                                                // return `<span class="text-white text-xs font-small px-2 py-1 rounded-full ${status.class}">${status.label}</span>`;
+                                                return `${status.label}`;
                                             }
                                         },
                                         {
@@ -686,10 +764,12 @@
 
 
                             });
+
                             // ################################ END - Lead List ################################
 
 
                             // ################################ Add New Lead ################################
+
                             document.addEventListener("DOMContentLoaded", function () {
                                 const form = document.querySelector('form[action="{{ route('leads.store') }}"]');
 
@@ -734,58 +814,57 @@
                                         });
                                 });
                             });
+
                             // ################################ END - Add New Lead ################################
 
 
                             // ################################ Edit lead ################################
-                            $(document).on('click', '.edit-lead-link', function (e) {
-                                e.preventDefault();
-                                const leadId = $(this).data('id');
 
-                                // Show modal immediately
-                                $('#editLeadModal').modal('show');
+                            $('#openEditLeadBtn').click(function () {
+                                const leadId = $('#showLeadId').val();
 
-                                // Show loading spinner and hide form
+                                // Open modal 2
+                                const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle2'));
+                                modal.show();
+
+                                // Show loading spinner, hide form
                                 $('#editLeadLoading').show();
                                 $('#editLeadForm').hide();
 
                                 // Fetch lead data
-                                $.get(`/leads/${leadId}`, function (data) {
-                                    $('#editLeadId').val(leadId);
-                                    $('#edit_name').val(data.name);
-                                    $('#edit_email').val(data.email);
-                                    $('#edit_phone').val(data.phone);
-                                    $('#edit_country').val(data.country);
-                                    $('#edit_street').val(data.street);
-                                    $('#edit_suburb').val(data.suburb);
-                                    $('#edit_state').val(data.state);
-                                    $('#edit_postcode').val(data.postcode);
+                                $.ajax({
+                                    url: `/leads/${leadId}`,
+                                    method: 'GET',
+                                    success: function (data) {
+                                        $('#editLeadId').val(data.id);
+                                        $('#edit_name').val(data.name);
+                                        $('#edit_email').val(data.email);
+                                        $('#edit_phone').val(data.phone);
+                                        $('#edit_street').val(data.street);
+                                        $('#edit_suburb').val(data.suburb);
+                                        $('#edit_state').val(data.state);
+                                        $('#edit_postcode').val(data.postcode);
+                                        $('#edit_storage_type').val(data.storage_type);
+                                        $('#edit_vehicle_type').val(data.vehicle_type);
+                                        $('#edit_vehicle_model').val(data.vehicle_model);
+                                        $('#edit_vehicle_length').val(data.vehicle_length);
+                                        $('#edit_rego_number').val(data.rego_number);
+                                        $('#edit_status').val(data.status);
+                                        $('#edit_score').val(data.score);
+                                        $('#edit_emergency_contact_name').val(data.emergency_contact_name);
+                                        $('#edit_emergency_contact_phone').val(data.emergency_contact_phone);
+                                        $('#edit_emergency_contact_address').val(data.emergency_contact_address);
+                                        $('#edit_remarks').val(data.remarks);
 
-                                    $('#edit_storage_type').val(data.storage_type);
-                                    $('#edit_vehicle_type').val(data.vehicle_type);
-                                    $('#edit_vehicle_model').val(data.vehicle_model);
-                                    $('#edit_vehicle_length').val(data.vehicle_length);
-                                    $('#edit_rego_number').val(data.rego_number);
-
-                                    $('#edit_status').val(data.status);
-                                    $('#edit_score').val(data.score);
-
-                                    $('#edit_emergency_contact_name').val(data.emergency_contact_name);
-                                    $('#edit_emergency_contact_phone').val(data.emergency_contact_phone);
-                                    $('#edit_emergency_contact_address').val(data.emergency_contact_address);
-
-                                    $('#edit_remarks').val(data.remarks);
-
-                                    // If fields are optional or might be null, you can do:
-                                    // $('#edit_field').val(data.field ?? '');
-                                    // Hide spinner, show form
-                                    $('#editLeadLoading').hide();
-                                    $('#editLeadForm').show();
-                                }).fail(function() {
-                                    // Handle errors
-                                    $('#editLeadLoading').html('<p class="text-danger">Failed to load data.</p>');
+                                        $('#editLeadLoading').hide();
+                                        $('#editLeadForm').show();
+                                    },
+                                    error: function () {
+                                        $('#editLeadLoading').html('<p class="text-danger">Failed to load lead data.</p>');
+                                    }
                                 });
                             });
+
                             // ################################ END - Edit Lead ################################
 
                             // Initialize toast instances (Bootstrap 5)
@@ -796,6 +875,7 @@
                             const deleteToast = new bootstrap.Toast(deleteToastEl);
 
                             // ################################ Update Lead ################################
+
                             $('#editLeadForm').submit(function (e) {
                                 e.preventDefault();
                                 const leadId = $('#editLeadId').val();
@@ -811,8 +891,17 @@
                                         'X-CSRF-TOKEN': $('input[name="_token"]').val()
                                     },
                                     success: function (res) {
-                                        $('#editLeadModal').modal('hide');
-                                        table.ajax.reload();
+
+                                        //close the modal
+                                        const modalElement = document.getElementById('exampleModalToggle2');
+                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                        modalInstance.hide();
+                                        const backdrop = document.querySelector('.modal-backdrop');
+                                        if (backdrop) {
+                                            backdrop.parentNode.removeChild(backdrop);
+                                        }
+
+                                        table.ajax.reload(); // reload the table after update
                                         updateToast.show();  // Show update success toast
                                     },
                                     error: function (xhr) {
@@ -821,9 +910,12 @@
                                     }
                                 });
                             });
+
                             // ################################ END - Update Lead ################################
 
+
                             // ################################ Delete Lead ################################
+
                             $('#deleteLeadBtn').click(function () {
                                 if (!confirm('Are you sure you want to delete this lead?')) return;
                                 const leadId = $('#editLeadId').val();
@@ -833,8 +925,17 @@
                                     type: 'DELETE',
                                     headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').val() },
                                     success: function () {
-                                        $('#editLeadModal').modal('hide');
-                                        table.ajax.reload();
+
+                                        //close the modal
+                                        const modalElement = document.getElementById('exampleModalToggle2');
+                                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                        modalInstance.hide();
+                                        const backdrop = document.querySelector('.modal-backdrop');
+                                        if (backdrop) {
+                                            backdrop.parentNode.removeChild(backdrop);
+                                        }
+
+                                        table.ajax.reload(); // reload the table after delete data
                                         deleteToast.show();  // Show delete success toast
                                     },
                                     error: function () {
@@ -844,6 +945,88 @@
                             });
 
                             // ################################ END - Delete Lead ################################
+
+
+
+                            // ################################ Show lead info ################################
+
+                            $(document).on('click', '.show-lead-link', function (e) {
+                                e.preventDefault();
+
+                                const leadId = $(this).data('id');
+                                $('#editLeadId').val(leadId); // For editing later
+                                $('#showLeadId').val(leadId); // Store lead ID for use in Edit button
+
+
+                                // Open the show modal immediately
+                                const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
+                                modal.show();
+
+                                $('#showLeadLoading').show();
+                                $('#showLeadContent').hide();
+
+                                // Fetch the lead data
+                                $.get(`/leads/${leadId}`, function (data) {
+                                    $('#showLeadName').text(data.name || '');
+                                    $('#showLeadEmail').text(data.email || '');
+                                    $('#showLeadPhone').text(data.phone || '');
+                                    $('#showLeadCountry').text(data.country || '');
+                                    $('#showLeadStreet').text(data.street || '');
+                                    $('#showLeadSuburb').text(data.suburb || '');
+                                    $('#showLeadState').text(data.state || '');
+                                    $('#showLeadPostcode').text(data.postcode || '');
+                                    $('#showLeadStorageType').text(data.storage_type || '');
+                                    $('#showLeadVehicleType').text(data.vehicle_type || '');
+                                    $('#showLeadVehicleModel').text(data.vehicle_model || '');
+                                    $('#showLeadVehicleLength').text(data.vehicle_length || '');
+                                    $('#showLeadRegoNumber').text(data.rego_number || '');
+                                    $('#showLeadStatus').text(data.status || '');
+                                    $('#showLeadScore').text(data.score || '');
+
+
+                                    // Base path for uploaded files
+                                    const basePath = '/storage/';
+
+                                    // Single photo
+                                    if (data.photo) {
+                                        $('#showLeadPhoto').html(`<img src="${basePath}${data.photo}" class="img-fluid rounded" width="100">`);
+                                    } else {
+                                        $('#showLeadPhoto').html('<span class="text-muted">No photo</span>');
+                                    }
+
+                                    // Asset photos
+                                    if (Array.isArray(data.asset_photos)) {
+                                        $('#showLeadAssetPhotos').html(
+                                            data.asset_photos.map(p => `<img src="${basePath}${p}" class="img-thumbnail me-1 mb-1" width="100">`).join('')
+                                        );
+                                    } else {
+                                        $('#showLeadAssetPhotos').html('<span class="text-muted">No asset photos</span>');
+                                    }
+
+                                    // Driver license photos
+                                    if (Array.isArray(data.driver_license_photos)) {
+                                        $('#showLeadDriverLicense').html(
+                                            data.driver_license_photos.map(p => `<img src="${basePath}${p}" class="img-thumbnail me-1 mb-1" width="100">`).join('')
+                                        );
+                                    } else {
+                                        $('#showLeadDriverLicense').html('<span class="text-muted">No license photos</span>');
+                                    }
+
+
+                                    $('#showLeadEmergencyContactName').text(data.emergency_contact_name || '');
+                                    $('#showLeadEmergencyContactPhone').text(data.emergency_contact_phone || '');
+                                    $('#showLeadEmergencyContactAddress').text(data.emergency_contact_address || '');
+                                    $('#showLeadRemarks').text(data.remarks || '');
+
+                                    $('#showLeadLoading').hide();
+                                    $('#showLeadContent').show();
+                                }).fail(function () {
+                                    $('#showLeadLoading').html('<p class="text-danger">Failed to load lead information.</p>');
+                                });
+
+                            });
+
+                            // ################################ END - Show lead info ################################
 
                         </script>
                     @endpush

@@ -31,10 +31,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/leads/export', [LeadsController::class, 'export'])->name('leads.export');
     Route::get('/leads/filters', [LeadsController::class, 'getFilterOptions'])->name('leads.filters');
     Route::post('/leads/store', [LeadsController::class, 'store'])->name('leads.store');
+    Route::get('/leads/{id}', [LeadsController::class, 'show']);
+    Route::put('/leads/update/{id}', [LeadsController::class, 'update'])->name('leads.update');
+    Route::delete('/leads/{id}', [LeadsController::class, 'destroy']);
+    Route::post('/leads/import', [LeadsController::class, 'import_leads'])->name('leads.import');
 
-Route::get('/leads/{id}', [LeadsController::class, 'show']);
-Route::put('/leads/update/{id}', [LeadsController::class, 'update'])->name('leads.update');
-Route::delete('/leads/{id}', [LeadsController::class, 'destroy']);
 
 
 

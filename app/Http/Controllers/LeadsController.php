@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Leads;
 use Illuminate\Http\Request;
-
 use Yajra\DataTables\DataTables;
 use App\Exports\LeadsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class LeadsController extends Controller
 {
 
+    // Leads list
     public function index()
     {
-        return view('admin.leads');
+        return view('admin.leads.index');
     }
 
+
+
+    // Get leads based on filter
     public function getData(Request $request)
     {
         $query = Leads::query();
@@ -41,11 +47,15 @@ class LeadsController extends Controller
         return DataTables::of($query)->make(true);
     }
 
+
+
+    // Export leads in excel format
     public function export(Request $request)
     {
         return Excel::download(new LeadsExport($request), 'leads.xlsx');
     }
 
+    // Get leads unique filter option values
     public function getFilterOptions()
     {
         return response()->json([
@@ -55,6 +65,7 @@ class LeadsController extends Controller
             'suburb' => Leads::whereNotNull('suburb')->distinct()->orderBy('suburb')->pluck('suburb'),
         ]);
     }
+
 
 
     // Add a new lead
@@ -110,14 +121,14 @@ class LeadsController extends Controller
 
         // Single photo upload
         if ($request->hasFile('photo')) {
-            $lead->photo = $request->file('photo')->store('uploads/photos', 'public');
+            $lead->photo = $request->file('photo')->store('leads/photos', 'public');
         }
 
         // Multiple Asset Photos
         $assetPhotos = [];
         if ($request->hasFile('asset_photo')) {
             foreach ($request->file('asset_photo') as $file) {
-                $assetPhotos[] = $file->store('uploads/assets', 'public');
+                $assetPhotos[] = $file->store('leads/assets', 'public');
             }
         }
         $lead->asset_photo = serialize($assetPhotos);
@@ -126,7 +137,7 @@ class LeadsController extends Controller
         $driverLicenses = [];
         if ($request->hasFile('driver_license')) {
             foreach ($request->file('driver_license') as $file) {
-                $driverLicenses[] = $file->store('uploads/licenses', 'public');
+                $driverLicenses[] = $file->store('leads/licenses', 'public');
             }
         }
         $lead->driver_license = serialize($driverLicenses);
@@ -141,14 +152,7 @@ class LeadsController extends Controller
 
 
 
-
-
-
-
-
-
-
-
+    // Show single lead information
     public function show($id)
     {
         $lead = Leads::findOrFail($id);
@@ -190,6 +194,9 @@ class LeadsController extends Controller
         ]);
     }
 
+
+
+    // Update lead
     public function update(Request $request, $id)
     {
         $lead = Leads::findOrFail($id);
@@ -217,14 +224,14 @@ class LeadsController extends Controller
 
         // Handle photo upload if exists
         if ($request->hasFile('photo')) {
-            $lead->photo = $request->file('photo')->store('uploads/photos', 'public');
+            $lead->photo = $request->file('photo')->store('leads/photos', 'public');
         }
 
         // Handle multiple asset photos (serialized)
         if ($request->hasFile('asset_photo')) {
             $assetPhotos = [];
             foreach ($request->file('asset_photo') as $file) {
-                $assetPhotos[] = $file->store('uploads/assets', 'public');
+                $assetPhotos[] = $file->store('leads/assets', 'public');
             }
             $lead->asset_photo = serialize($assetPhotos);
         }
@@ -233,7 +240,7 @@ class LeadsController extends Controller
         if ($request->hasFile('driver_license')) {
             $driverLicenses = [];
             foreach ($request->file('driver_license') as $file) {
-                $driverLicenses[] = $file->store('uploads/licenses', 'public');
+                $driverLicenses[] = $file->store('leads/licenses', 'public');
             }
             $lead->driver_license = serialize($driverLicenses);
         }
@@ -244,6 +251,8 @@ class LeadsController extends Controller
     }
 
 
+
+    // Delete lead
     public function destroy($id)
     {
         Leads::destroy($id);
@@ -252,9 +261,50 @@ class LeadsController extends Controller
 
 
 
+    // import leads
+    public function import_leads(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt',
+        ]);
 
+        $path = $request->file('csv_file')->getRealPath();
+        $data = array_map('str_getcsv', file($path));
 
+        if (count($data) < 2) {
+            return back()->with('error', 'CSV file must contain at least one row of data.');
+        }
 
+        // Read and normalize headers
+        $headers = array_map('strtolower', $data[0]);
+        unset($data[0]);
+
+        foreach ($data as $row) {
+            $row = array_combine($headers, $row);
+
+            // Filter out unwanted fields
+            $cleaned = [];
+            foreach ($row as $key => $value) {
+                $value = trim($value);
+
+                // Skip empty, "null", or "id" field
+                if ($key === 'id' || $value === '' || strtolower($value) === 'null') {
+                    continue;
+                }
+
+                $cleaned[$key] = $value;
+            }
+
+            // Only insert if some valid fields exist
+            if (!empty($cleaned)) {
+                $cleaned['created_at'] = now();
+                $cleaned['updated_at'] = now();
+                DB::table('leads')->insert($cleaned);
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Leads imported successfully.']);
+    }
 
 
 }

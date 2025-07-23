@@ -35,22 +35,9 @@
         window.setAppearance(window.localStorage.getItem('appearance') || 'system')
     </script>
 
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-
-
-    {{-- Include jQuery & DataTables --}}
-
+    {{-- Bootstrap --}}
     <link href="{{ asset('css/bootstrap/bootstrap.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/dataTables/dataTables.bootstrap5.css') }}" rel="stylesheet" />
-
-    <script src="{{ asset('js/jquery/jquery-3.7.1.js') }}"></script>
-    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/datatables/dataTables.js') }}"></script>
-    <script src="{{ asset('js/datatables/dataTables.bootstrap5.js') }}"></script>
-    <script src="{{ asset('js/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/datatables/jszip.min.js') }}"></script>
-    <script src="{{ asset('js/datatables/buttons.html5.min.js') }}"></script>
-
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
     {{--  Custom CSS  --}}
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />

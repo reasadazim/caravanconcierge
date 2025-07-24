@@ -11,11 +11,11 @@
 
                 <!-- Example two level -->
                 <x-layouts.sidebar-two-level-link-parent title="LEAD MANAGEMENT" icon="mdi:leads-outline"
-                                                         :active="request()->routeIs('leads.index')">
+                                                         :active="request()->routeIs('leads.index') || request()->routeIs('contact.index')">
                     <x-layouts.sidebar-two-level-link href="{{ route('leads.index') }}" icon='octicon:dot-24'
                                                       :active="request()->routeIs('leads.index')"> Leads</x-layouts.sidebar-two-level-link>
-                    <x-layouts.sidebar-two-level-link href="#" icon='octicon:dot-24'
-                                                      :active="request()->routeIs('two-level*')"> Contact Tracking</x-layouts.sidebar-two-level-link>
+                    <x-layouts.sidebar-two-level-link href="{{ route('contact.index') }}" icon='octicon:dot-24'
+                                                      :active="request()->routeIs('contact.index')"> Contact Tracking</x-layouts.sidebar-two-level-link>
                     <x-layouts.sidebar-two-level-link href="#" icon='octicon:dot-24'
                                                       :active="request()->routeIs('two-level*')"> Waiting List</x-layouts.sidebar-two-level-link>
                 </x-layouts.sidebar-two-level-link-parent>

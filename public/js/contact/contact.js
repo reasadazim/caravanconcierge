@@ -10,7 +10,7 @@ $(function () {
         // dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>', // show export button - only filtered data
         lengthMenu: [10, 25, 50, 100, 500, 1000, 5000, 10000],
         ajax: {
-            url: '/leads/data',
+            url: '/contact_tracking/data',
             data: function (d) {
                 d.status = $('#statusFilter').val();
                 d.score = $('#scoreFilter').val();
@@ -29,15 +29,15 @@ $(function () {
             { data: 'email' },
             { data: 'phone' },
             // { data: 'country' },
-            { data: 'street' },
-            { data: 'suburb' },
-            { data: 'state' },
-            { data: 'postcode' },
-            { data: 'storage_type' },
-            { data: 'vehicle_type' },
+            // { data: 'street' },
+            // { data: 'suburb' },
+            // { data: 'state' },
+            // { data: 'postcode' },
+            // { data: 'storage_type' },
+            // { data: 'vehicle_type' },
             // { data: 'vehicle_model' },
             // { data: 'vehicle_estimated_value' },
-            { data: 'rego_number' },
+            // { data: 'rego_number' },
             // { data: 'type' },
             {
                 data: 'status',
@@ -58,23 +58,23 @@ $(function () {
                     return `${status.label}`;
                 }
             },
-            {
-                data: 'score',
-                render: function (data, type, row) {
-                    let stars = '';
-                    const score = parseInt(data) || 0;
-                    for (let i = 1; i <= 5; i++) {
-                        if (i <= score) {
-                            stars += '<iconify-icon icon="emojione-monotone:star" class="text-amber-500 inline-block"></iconify-icon>';
-                        } else {
-                            stars += '<iconify-icon icon="emojione-monotone:star" class="text-gray-400 inline-block"></iconify-icon>';
-                        }
-                    }
-                    return `<span class="whitespace-nowrap">${stars}</span>`;
-                },
-                orderable: false,
-                searchable: false,
-            }
+            // {
+            //     data: 'score',
+            //     render: function (data, type, row) {
+            //         let stars = '';
+            //         const score = parseInt(data) || 0;
+            //         for (let i = 1; i <= 5; i++) {
+            //             if (i <= score) {
+            //                 stars += '<iconify-icon icon="emojione-monotone:star" class="text-amber-500 inline-block"></iconify-icon>';
+            //             } else {
+            //                 stars += '<iconify-icon icon="emojione-monotone:star" class="text-gray-400 inline-block"></iconify-icon>';
+            //             }
+            //         }
+            //         return `<span class="whitespace-nowrap">${stars}</span>`;
+            //     },
+            //     orderable: false,
+            //     searchable: false,
+            // }
 
             // { data: 'priority' },
             // { data: 'emergency_contact_name' },
@@ -82,10 +82,10 @@ $(function () {
             // { data: 'emergency_contact_address' },
             // { data: 'remarks' },
             // { data: 'added_to_waitlist' },
-            // { data: 'last_contact_datetime' },
-            // { data: 'contact_method' },
-            // { data: 'followup_reminder' },
-            // { data: 'contact_remarks' },
+            { data: 'last_contact_datetime' },
+            { data: 'contact_method' },
+            { data: 'followup_reminder' },
+            { data: 'contact_remarks' },
             // { data: 'created_at' },
             // { data: 'updated_at' }
         ],
@@ -109,7 +109,7 @@ $(function () {
 
     function populateFilters() {
         $.ajax({
-            url: '/leads/filters',
+            url: '/contact_tracking/filters',
             method: 'GET',
             success: function (data) {
                 // Clear old options
@@ -131,17 +131,17 @@ $(function () {
                     $('#statusFilter').append(`<option value="${val}">${label}</option>`);
                 });
 
-                data.score.forEach(val => {
-                    $('#scoreFilter').append(`<option value="${val}">${val}</option>`);
-                });
-
-                data.state.forEach(val => {
-                    $('#stateFilter').append(`<option value="${val}">${val}</option>`);
-                });
-
-                data.suburb.forEach(val => {
-                    $('#suburbFilter').append(`<option value="${val}">${val}</option>`);
-                });
+                // data.score.forEach(val => {
+                //     $('#scoreFilter').append(`<option value="${val}">${val}</option>`);
+                // });
+                //
+                // data.state.forEach(val => {
+                //     $('#stateFilter').append(`<option value="${val}">${val}</option>`);
+                // });
+                //
+                // data.suburb.forEach(val => {
+                //     $('#suburbFilter').append(`<option value="${val}">${val}</option>`);
+                // });
             },
             error: function () {
                 console.error('Failed to fetch filter options.');
@@ -157,48 +157,48 @@ $(function () {
 
 // ################################ Add New Lead ################################
 
-$('#addNewLead').submit(function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    $.ajax({
-        url: '/leads/store', // or use form.attr('action') if dynamic
-        method: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
-        },
-        success: function (res) {
-
-            // Close the modal
-            const modalElement = document.getElementById('exampleModal');
-            const modalInstance = bootstrap.Modal.getInstance(modalElement);
-            modalInstance.hide();
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) {
-                backdrop.parentNode.removeChild(backdrop);
-            }
-
-            table.ajax.reload(); // Reload DataTable
-            successToast.show();  // Show success toast (e.g. "Lead added successfully")
-
-            $('#addNewLead')[0].reset(); // Reset the form
-        },
-        error: function (xhr) {
-
-            // Inject message and show toast
-            $('#errorToastBody').text(xhr.responseText);
-            // const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
-            const errorToast = new bootstrap.Toast(document.getElementById('errorToast'), {
-                delay: 30000
-            });
-            errorToast.show();
-
-        }
-    });
-});
+// $('#addNewLead').submit(function (e) {
+//     e.preventDefault();
+//     const formData = new FormData(this);
+//
+//     $.ajax({
+//         url: '/contact_tracking/store', // or use form.attr('action') if dynamic
+//         method: 'POST',
+//         data: formData,
+//         contentType: false,
+//         processData: false,
+//         headers: {
+//             'X-CSRF-TOKEN': $('input[name="_token"]').val()
+//         },
+//         success: function (res) {
+//
+//             // Close the modal
+//             const modalElement = document.getElementById('exampleModal');
+//             const modalInstance = bootstrap.Modal.getInstance(modalElement);
+//             modalInstance.hide();
+//             const backdrop = document.querySelector('.modal-backdrop');
+//             if (backdrop) {
+//                 backdrop.parentNode.removeChild(backdrop);
+//             }
+//
+//             table.ajax.reload(); // Reload DataTable
+//             successToast.show();  // Show success toast (e.g. "Lead added successfully")
+//
+//             $('#addNewLead')[0].reset(); // Reset the form
+//         },
+//         error: function (xhr) {
+//
+//             // Inject message and show toast
+//             $('#errorToastBody').text(xhr.responseText);
+//             // const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+//             const errorToast = new bootstrap.Toast(document.getElementById('errorToast'), {
+//                 delay: 30000
+//             });
+//             errorToast.show();
+//
+//         }
+//     });
+// });
 
 
 // ################################ END - Add New Lead ################################
@@ -219,28 +219,31 @@ $('#openEditLeadBtn').click(function () {
 
     // Fetch lead data
     $.ajax({
-        url: `/leads/${leadId}`,
+        url: `/contact_tracking/${leadId}`,
         method: 'GET',
         success: function (data) {
             $('#editLeadId').val(data.id);
             $('#edit_name').val(data.name);
             $('#edit_email').val(data.email);
             $('#edit_phone').val(data.phone);
-            $('#edit_street').val(data.street);
-            $('#edit_suburb').val(data.suburb);
-            $('#edit_state').val(data.state);
-            $('#edit_postcode').val(data.postcode);
-            $('#edit_storage_type').val(data.storage_type);
-            $('#edit_vehicle_type').val(data.vehicle_type);
-            $('#edit_vehicle_model').val(data.vehicle_model);
-            $('#edit_vehicle_length').val(data.vehicle_length);
-            $('#edit_rego_number').val(data.rego_number);
+            // $('#edit_street').val(data.street);
+            // $('#edit_suburb').val(data.suburb);
+            // $('#edit_state').val(data.state);
+            // $('#edit_postcode').val(data.postcode);
+            // $('#edit_storage_type').val(data.storage_type);
+            // $('#edit_vehicle_type').val(data.vehicle_type);
+            // $('#edit_vehicle_model').val(data.vehicle_model);
+            // $('#edit_vehicle_length').val(data.vehicle_length);
+            // $('#edit_rego_number').val(data.rego_number);
             $('#edit_status').val(data.status);
-            $('#edit_score').val(data.score);
-            $('#edit_emergency_contact_name').val(data.emergency_contact_name);
-            $('#edit_emergency_contact_phone').val(data.emergency_contact_phone);
-            $('#edit_emergency_contact_address').val(data.emergency_contact_address);
-            $('#edit_remarks').val(data.remarks);
+            // $('#edit_score').val(data.score);
+            // $('#edit_emergency_contact_name').val(data.emergency_contact_name);
+            // $('#edit_emergency_contact_phone').val(data.emergency_contact_phone);
+            // $('#edit_emergency_contact_address').val(data.emergency_contact_address);
+            $('#edit_last_contact_datetime').val(data.last_contact_datetime);
+            $('#edit_contact_method').val(data.contact_method);
+            $('#edit_followup_reminder').val(data.followup_reminder);
+            $('#edit_contact_remarks').val(data.contact_remarks);
 
             $('#editLeadLoading').hide();
             $('#editLeadForm').show();
@@ -279,7 +282,7 @@ $('#editLeadForm').submit(function (e) {
     const formData = new FormData(this);
 
     $.ajax({
-        url: `/leads/update/${leadId}`,
+        url: `/contact_tracking/update/${leadId}`,
         method: 'POST',
         data: formData,
         contentType: false,
@@ -325,7 +328,7 @@ $('#deleteLeadBtn').click(function () {
     const leadId = $('#editLeadId').val();
 
     $.ajax({
-        url: `/leads/${leadId}`,
+        url: `/contact_tracking/${leadId}`,
         type: 'DELETE',
         headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').val() },
         success: function () {
@@ -378,7 +381,7 @@ $(document).on('click', '.show-lead-link', function (e) {
     $('#showLeadContent').hide();
 
     // Fetch the lead data
-    $.get(`/leads/${leadId}`, function (data) {
+    $.get(`/contact_tracking/${leadId}`, function (data) {
         $('#showLeadName').text(data.name || '');
         $('#showLeadEmail').text(data.email || '');
         $('#showLeadPhone').text(data.phone || '');
@@ -502,49 +505,49 @@ $(document).on('click', '.show-lead-link', function (e) {
 
 
 // ################################ Import Leads CSV file ################################
-$('#csvImportForm').on('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const importBtn = $(this).find('button[type="submit"]');
-
-    importBtn.prop('disabled', true).text('Importing...');
-
-    $.ajax({
-        url: $(this).attr('action'),
-        method: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            $('#importModal').modal('hide');
-            $('#csvImportForm')[0].reset();
-            importBtn.prop('disabled', false).text('Import');
-
-            // Set success message and show toast
-            $('#importToastMessage').text('Leads imported successfully!');
-            const toast = new bootstrap.Toast(document.getElementById('importToast'));
-            toast.show();
-
-            table.ajax.reload(); // reload the table after delete data
-        },
-        error: function(xhr) {
-            importBtn.prop('disabled', false).text('Import');
-
-            let message = 'Something went wrong.';
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                message = xhr.responseJSON.message;
-            }
-
-            // Inject message and show toast
-            $('#errorToastBody').text(message);
-            // const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
-            const errorToast = new bootstrap.Toast(document.getElementById('errorToast'), {
-                delay: 30000
-            });
-            errorToast.show();
-        }
-    });
-});
+// $('#csvImportForm').on('submit', function(e) {
+//     e.preventDefault();
+//
+//     const formData = new FormData(this);
+//     const importBtn = $(this).find('button[type="submit"]');
+//
+//     importBtn.prop('disabled', true).text('Importing...');
+//
+//     $.ajax({
+//         url: $(this).attr('action'),
+//         method: 'POST',
+//         data: formData,
+//         processData: false,
+//         contentType: false,
+//         success: function(response) {
+//             $('#importModal').modal('hide');
+//             $('#csvImportForm')[0].reset();
+//             importBtn.prop('disabled', false).text('Import');
+//
+//             // Set success message and show toast
+//             $('#importToastMessage').text('Leads imported successfully!');
+//             const toast = new bootstrap.Toast(document.getElementById('importToast'));
+//             toast.show();
+//
+//             table.ajax.reload(); // reload the table after delete data
+//         },
+//         error: function(xhr) {
+//             importBtn.prop('disabled', false).text('Import');
+//
+//             let message = 'Something went wrong.';
+//             if (xhr.responseJSON && xhr.responseJSON.message) {
+//                 message = xhr.responseJSON.message;
+//             }
+//
+//             // Inject message and show toast
+//             $('#errorToastBody').text(message);
+//             // const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+//             const errorToast = new bootstrap.Toast(document.getElementById('errorToast'), {
+//                 delay: 30000
+//             });
+//             errorToast.show();
+//         }
+//     });
+// });
 
 // ################################ END - Import Leads CSV file ################################

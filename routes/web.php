@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LeadsController;
+use App\Http\Controllers\ContactTrackingController;
 use App\Http\Controllers\Settings;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    //Leads
+    // Leads
     Route::get('/leads', [LeadsController::class, 'index'])->name('leads.index');
     Route::get('/leads/data', [LeadsController::class, 'getData'])->name('leads.data');
     Route::get('/leads/export', [LeadsController::class, 'export'])->name('leads.export');
@@ -35,6 +36,18 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/leads/update/{id}', [LeadsController::class, 'update'])->name('leads.update');
     Route::delete('/leads/{id}', [LeadsController::class, 'destroy']);
     Route::post('/leads/import', [LeadsController::class, 'import_leads'])->name('leads.import');
+
+
+    // Contact
+    Route::get('/contact_tracking', [ContactTrackingController::class, 'index'])->name('contact.index');
+    Route::get('/contact_tracking/data', [ContactTrackingController::class, 'getData'])->name('contact.data');
+    Route::get('/contact_tracking/export', [ContactTrackingController::class, 'export'])->name('contact.export');
+    Route::get('/contact_tracking/filters', [ContactTrackingController::class, 'getFilterOptions'])->name('contact.filters');
+    Route::post('/contact_tracking/store', [ContactTrackingController::class, 'store'])->name('contact.store');
+    Route::get('/contact_tracking/{id}', [ContactTrackingController::class, 'show']);
+    Route::put('/contact_tracking/update/{id}', [ContactTrackingController::class, 'update'])->name('contact.update');
+    Route::delete('/contact_tracking/{id}', [ContactTrackingController::class, 'destroy']);
+    Route::post('/contact_tracking/import', [ContactTrackingController::class, 'import_leads'])->name('contact.import');
 
 
 

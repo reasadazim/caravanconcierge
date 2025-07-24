@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ContactTrackingExport;
 use App\Models\Leads;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -9,13 +10,13 @@ use App\Exports\LeadsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 
-class LeadsController extends Controller
+class ContactTrackingController extends Controller
 {
 
     // Leads list
     public function index()
     {
-        return view('admin.leads.index');
+        return view('admin.contact.index');
     }
 
 
@@ -49,7 +50,7 @@ class LeadsController extends Controller
     // Export leads in excel format
     public function export(Request $request)
     {
-        return Excel::download(new LeadsExport($request), 'leads.xlsx');
+        return Excel::download(new ContactTrackingExport($request), 'contact-tracking.xlsx');
     }
 
     // Get leads unique filter option values
@@ -191,6 +192,10 @@ class LeadsController extends Controller
             'photo' => $lead->photo,
             'asset_photos' => $assetPhotos,
             'driver_license_photos' => $driverLicensePhotos,
+            'last_contact_datetime' => $lead->last_contact_datetime,
+            'contact_method' => $lead->contact_method,
+            'followup_reminder' => $lead->followup_reminder,
+            'contact_remarks' => $lead->contact_remarks,
         ]);
     }
 
@@ -205,45 +210,50 @@ class LeadsController extends Controller
         $lead->name = $request->input('name');
         $lead->email = $request->input('email');
         $lead->phone = $request->input('phone');
-        $lead->country = $request->input('country', 'Australia');
-        $lead->street = $request->input('street');
-        $lead->suburb = $request->input('suburb');
-        $lead->state = $request->input('state');
-        $lead->postcode = $request->input('postcode');
-        $lead->storage_type = $request->input('storage_type');
-        $lead->vehicle_type = $request->input('vehicle_type');
-        $lead->vehicle_model = $request->input('vehicle_model');
-        $lead->vehicle_length = $request->input('vehicle_length');
-        $lead->rego_number = $request->input('rego_number');
+//        $lead->country = $request->input('country', 'Australia');
+//        $lead->street = $request->input('street');
+//        $lead->suburb = $request->input('suburb');
+//        $lead->state = $request->input('state');
+//        $lead->postcode = $request->input('postcode');
+//        $lead->storage_type = $request->input('storage_type');
+//        $lead->vehicle_type = $request->input('vehicle_type');
+//        $lead->vehicle_model = $request->input('vehicle_model');
+//        $lead->vehicle_length = $request->input('vehicle_length');
+//        $lead->rego_number = $request->input('rego_number');
         $lead->status = $request->input('status');
-        $lead->score = $request->input('score');
-        $lead->emergency_contact_name = $request->input('emergency_contact_name');
-        $lead->emergency_contact_phone = $request->input('emergency_contact_phone');
-        $lead->emergency_contact_address = $request->input('emergency_contact_address');
-        $lead->remarks = $request->input('remarks');
+//        $lead->score = $request->input('score');
+//        $lead->emergency_contact_name = $request->input('emergency_contact_name');
+//        $lead->emergency_contact_phone = $request->input('emergency_contact_phone');
+//        $lead->emergency_contact_address = $request->input('emergency_contact_address');
+//        $lead->remarks = $request->input('remarks');
 
-        // Handle photo upload if exists
-        if ($request->hasFile('photo')) {
-            $lead->photo = $request->file('photo')->store('leads/photos', 'public');
-        }
+//        // Handle photo upload if exists
+//        if ($request->hasFile('photo')) {
+//            $lead->photo = $request->file('photo')->store('leads/photos', 'public');
+//        }
+//
+//        // Handle multiple asset photos (serialized)
+//        if ($request->hasFile('asset_photo')) {
+//            $assetPhotos = [];
+//            foreach ($request->file('asset_photo') as $file) {
+//                $assetPhotos[] = $file->store('leads/assets', 'public');
+//            }
+//            $lead->asset_photo = serialize($assetPhotos);
+//        }
+//
+//        // Handle multiple driver licenses (serialized)
+//        if ($request->hasFile('driver_license')) {
+//            $driverLicenses = [];
+//            foreach ($request->file('driver_license') as $file) {
+//                $driverLicenses[] = $file->store('leads/licenses', 'public');
+//            }
+//            $lead->driver_license = serialize($driverLicenses);
+//        }
 
-        // Handle multiple asset photos (serialized)
-        if ($request->hasFile('asset_photo')) {
-            $assetPhotos = [];
-            foreach ($request->file('asset_photo') as $file) {
-                $assetPhotos[] = $file->store('leads/assets', 'public');
-            }
-            $lead->asset_photo = serialize($assetPhotos);
-        }
-
-        // Handle multiple driver licenses (serialized)
-        if ($request->hasFile('driver_license')) {
-            $driverLicenses = [];
-            foreach ($request->file('driver_license') as $file) {
-                $driverLicenses[] = $file->store('leads/licenses', 'public');
-            }
-            $lead->driver_license = serialize($driverLicenses);
-        }
+        $lead->last_contact_datetime = $request->input('last_contact_datetime');
+        $lead->contact_method = $request->input('contact_method');
+        $lead->followup_reminder = $request->input('followup_reminder');
+        $lead->contact_remarks = $request->input('contact_remarks');
 
         $lead->save();
 

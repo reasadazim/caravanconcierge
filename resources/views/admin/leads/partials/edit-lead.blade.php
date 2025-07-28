@@ -26,9 +26,7 @@
                         <tr><th>Suburb</th><td id="showLeadSuburb"></td></tr>
                         <tr><th>State</th><td id="showLeadState"></td></tr>
                         <tr><th>Postcode</th><td id="showLeadPostcode"></td></tr>
-                        <tr><th>Storage Type</th><td id="showLeadStorageType"></td></tr>
                         <tr><th>Vehicle Type</th><td id="showLeadVehicleType"></td></tr>
-                        <tr><th>Vehicle Model</th><td id="showLeadVehicleModel"></td></tr>
                         <tr><th>Vehicle Length</th><td id="showLeadVehicleLength"></td></tr>
                         <tr><th>Rego Number</th><td id="showLeadRegoNumber"></td></tr>
                         <tr><th>Status</th><td id="showLeadStatus"></td></tr>
@@ -55,6 +53,10 @@
                         <tr><th>Emergency Contact Phone</th><td id="showLeadEmergencyContactPhone"></td></tr>
                         <tr><th>Emergency Contact Address</th><td id="showLeadEmergencyContactAddress"></td></tr>
                         <tr><th>Remarks</th><td id="showLeadRemarks"></td></tr>
+                        <tr><th>Last Contact Datetime</th><td id="showLastContactDateTime"></td></tr>
+                        <tr><th>Contact Method</th><td id="showContactMethod"></td></tr>
+                        <tr><th>Followup Reminder</th><td id="showFolloupReminder"></td></tr>
+                        <tr><th>Contact Remarks</th><td id="showContactRemarks"></td></tr>
                         </tbody>
                     </table>
 
@@ -136,15 +138,6 @@
                                 <input type="text" name="postcode" id="edit_postcode" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Storage Type</label>
-                                <select name="storage_type" id="edit_storage_type" class="form-select">
-                                    <option value="">Select Storage Type</option>
-                                    <option value="Outdoor">Outdoor</option>
-                                    <option value="Covered">Covered</option>
-                                    <option value="Indoor">Indoor</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
                                 <label class="form-label">Vehicle Type</label>
                                 <select name="vehicle_type" id="edit_vehicle_type" class="form-select">
                                     <option value="">Select Vehicle Type</option>
@@ -154,10 +147,6 @@
                                     <option value="Motorhome">Motorhome</option>
                                     <option value="Trailer">Trailer</option>
                                 </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Vehicle Model</label>
-                                <input type="text" name="vehicle_model" id="edit_vehicle_model" class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Vehicle Length</label>
@@ -221,6 +210,29 @@
                             <div class="col-12">
                                 <label class="form-label">Remarks</label>
                                 <textarea name="remarks" rows="3" id="edit_remarks" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-6" id="dateTimePicker">
+                                <label class="form-label">Last Contact Date and Time</label>
+{{--                                <input type="datetime-local" name="last_contact_datetime" id="edit_last_contact_datetime" class="form-control">--}}
+                                <input type="text" name="last_contact_datetime" id="edit_last_contact_datetime" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Contact Method</label>
+                                <select name="contact_method" id="edit_contact_method" class="form-select">
+                                    <option value="">Select Score</option>
+                                    <option value="Phone">Phone</option>
+                                    <option value="SMS">SMS</option>
+                                    <option value="Email">Email</option>
+                                    <option value="In Person">In Person</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Followup Reminder Date and Time</label>
+                                <input type="datetime-local" name="followup_reminder" id="edit_followup_reminder" class="form-control">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Contact Remarks</label>
+                                <textarea name="contact_remarks" rows="3" id="edit_contact_remarks" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

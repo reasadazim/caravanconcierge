@@ -8,7 +8,7 @@ $(function () {
         serverSide: true,
         responsive: true,
         // dom: '<"d-flex justify-content-between"lBf>rt<"d-flex justify-content-between"ip>', // show export button - only filtered data
-        lengthMenu: [10, 25, 50, 100, 500, 1000, 5000, 10000],
+        lengthMenu: [10, 25, 50, 100, 500, 1000],
         ajax: {
             url: '/leads/data',
             data: function (d) {
@@ -33,12 +33,9 @@ $(function () {
             { data: 'suburb' },
             { data: 'state' },
             { data: 'postcode' },
-            { data: 'storage_type' },
             { data: 'vehicle_type' },
-            // { data: 'vehicle_model' },
-            // { data: 'vehicle_estimated_value' },
+            { data: 'vehicle_length' },
             { data: 'rego_number' },
-            // { data: 'type' },
             {
                 data: 'status',
                 render: function (data) {
@@ -74,18 +71,15 @@ $(function () {
                 },
                 orderable: false,
                 searchable: false,
-            }
-
-            // { data: 'priority' },
-            // { data: 'emergency_contact_name' },
-            // { data: 'emergency_contact_phone' },
-            // { data: 'emergency_contact_address' },
-            // { data: 'remarks' },
-            // { data: 'added_to_waitlist' },
-            // { data: 'last_contact_datetime' },
-            // { data: 'contact_method' },
-            // { data: 'followup_reminder' },
-            // { data: 'contact_remarks' },
+            },
+            { data: 'emergency_contact_name' },
+            { data: 'emergency_contact_phone' },
+            { data: 'emergency_contact_address' },
+            { data: 'remarks' },
+            { data: 'last_contact_datetime' },
+            { data: 'contact_method' },
+            { data: 'followup_reminder' },
+            { data: 'contact_remarks' },
             // { data: 'created_at' },
             // { data: 'updated_at' }
         ],
@@ -230,9 +224,7 @@ $('#openEditLeadBtn').click(function () {
             $('#edit_suburb').val(data.suburb);
             $('#edit_state').val(data.state);
             $('#edit_postcode').val(data.postcode);
-            $('#edit_storage_type').val(data.storage_type);
             $('#edit_vehicle_type').val(data.vehicle_type);
-            $('#edit_vehicle_model').val(data.vehicle_model);
             $('#edit_vehicle_length').val(data.vehicle_length);
             $('#edit_rego_number').val(data.rego_number);
             $('#edit_status').val(data.status);
@@ -241,6 +233,31 @@ $('#openEditLeadBtn').click(function () {
             $('#edit_emergency_contact_phone').val(data.emergency_contact_phone);
             $('#edit_emergency_contact_address').val(data.emergency_contact_address);
             $('#edit_remarks').val(data.remarks);
+
+
+            const rawDatetime = data.last_contact_datetime; // e.g., "2025-07-24 22:00:00"
+
+            flatpickr("#edit_last_contact_datetime", {
+                enableTime: true,
+                dateFormat: "d-m-Y h:i K",  // 27-07-2025 10:30 AM
+                time_24hr: false,
+                defaultDate: [rawDatetime],  // from server or dynamic value
+                appendTo: document.querySelector('form #dateTimePicker'),
+            });
+
+
+            $('#edit_contact_method').val(data.contact_method);
+
+            const rawFollowup = data.followup_reminder;
+
+            if (rawFollowup) {
+                const formattedFollowup = rawFollowup.replace(' ', 'T').slice(0, 16);
+                $('#edit_followup_reminder').val(formattedFollowup);
+            }
+
+            $('#edit_contact_remarks').val(data.contact_remarks);
+
+
 
             $('#editLeadLoading').hide();
             $('#editLeadForm').show();
@@ -258,6 +275,8 @@ $('#openEditLeadBtn').click(function () {
         }
     });
 });
+
+
 
 // ################################ END - Edit Lead ################################
 
@@ -387,9 +406,7 @@ $(document).on('click', '.show-lead-link', function (e) {
         $('#showLeadSuburb').text(data.suburb || '');
         $('#showLeadState').text(data.state || '');
         $('#showLeadPostcode').text(data.postcode || '');
-        $('#showLeadStorageType').text(data.storage_type || '');
         $('#showLeadVehicleType').text(data.vehicle_type || '');
-        $('#showLeadVehicleModel').text(data.vehicle_model || '');
         $('#showLeadVehicleLength').text(data.vehicle_length || '');
         $('#showLeadRegoNumber').text(data.rego_number || '');
 
@@ -474,6 +491,11 @@ $(document).on('click', '.show-lead-link', function (e) {
         $('#showLeadEmergencyContactPhone').text(data.emergency_contact_phone || '');
         $('#showLeadEmergencyContactAddress').text(data.emergency_contact_address || '');
         $('#showLeadRemarks').text(data.remarks || '');
+
+        $('#showLastContactDateTime').text(data.last_contact_datetime || '');
+        $('#showContactMethod').text(data.contact_method || '');
+        $('#showFolloupReminder').text(data.followup_reminder || '');
+        $('#showContactRemarks').text(data.contact_remarks || '');
 
         $('#showLeadLoading').hide();
         $('#showLeadContent').show();

@@ -61,15 +61,6 @@
                             <input type="text" name="postcode" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Storage Type</label>
-                            <select name="storage_type" class="form-select">
-                                <option value="">Select Storage Type</option>
-                                <option value="Outdoor">Outdoor</option>
-                                <option value="Covered">Covered</option>
-                                <option value="Indoor">Indoor</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
                             <label class="form-label">Vehicle Type</label>
                             <select name="vehicle_type" class="form-select">
                                 <option value="">Select Vehicle Type</option>
@@ -79,10 +70,6 @@
                                 <option value="Motorhome">Motorhome</option>
                                 <option value="Trailer">Trailer</option>
                             </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Vehicle Model</label>
-                            <input type="text" name="vehicle_model" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Vehicle Length</label>
@@ -155,7 +142,28 @@
                             <label class="form-label">Remarks</label>
                             <textarea name="remarks" rows="3" class="form-control"></textarea>
                         </div>
-
+                        <div class="col-md-6">
+                            <label class="form-label">Last Contact Date and Time</label>
+                            <input type="datetime-local" name="last_contact_datetime" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Method</label>
+                            <select name="contact_method" class="form-select">
+                                <option value="">Select Contact Method</option>
+                                <option value="Phone">Phone</option>
+                                <option value="SMS">SMS</option>
+                                <option value="Email">Email</option>
+                                <option value="In Person">In Person</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Followup Reminder Date and Time</label>
+                            <input type="datetime-local" name="followup_reminder" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Contact Remarks</label>
+                            <textarea name="contact_remarks" rows="3" class="form-control"></textarea>
+                        </div>
                         <div class="modal-footer text-end">
                             <button type="submit" class="btn btn-primary">
                                 <div class="flex items-center gap-2">

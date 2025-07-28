@@ -229,24 +229,19 @@
                                     <th>Suburb</th>
                                     <th>State</th>
                                     <th>Postcode</th>
-                                    {{--                                    <th>Type</th>--}}
-                                    <th>Storage Type</th>
                                     <th>Vehicle Type</th>
-                                    {{--                                    <th>Vehicle Model</th>--}}
-                                    {{--                                    <th>Estimated Value</th>--}}
+                                    <th>Vehicle Length</th>
                                     <th>Rego Number</th>
                                     <th>Status</th>
                                     <th>Score</th>
-                                    {{--                                    <th>Priority</th>--}}
-                                    {{--                                    <th>Emergency Name</th>--}}
-                                    {{--                                    <th>Emergency Phone</th>--}}
-                                    {{--                                    <th>Emergency Address</th>--}}
-                                    {{--                                    <th>Remarks</th>--}}
-                                    {{--                                    <th>Added to Waitlist</th>--}}
-                                    {{--                                    <th>Last Contact</th>--}}
-                                    {{--                                    <th>Contact Method</th>--}}
-                                    {{--                                    <th>Follow-up</th>--}}
-                                    {{--                                    <th>Contact Remarks</th>--}}
+                                    <th>Emergency Name</th>
+                                    <th>Emergency Phone</th>
+                                    <th>Emergency Address</th>
+                                    <th>Remarks</th>
+                                    <th>Last Contact</th>
+                                    <th>Contact Method</th>
+                                    <th>Follow-up</th>
+                                    <th>Contact Remarks</th>
                                     {{--                                    <th>Created</th>--}}
                                     {{--                                    <th>Updated</th>--}}
 
@@ -282,6 +277,14 @@
                         {{-- Lightbox2 --}}
                         <link href="{{ asset('lightbox/lightbox.min.css') }}" rel="stylesheet"/>
                         <script src="{{ asset('lightbox/lightbox.min.js') }}"></script>
+
+
+                        {{-- Flatpickr CSS --}}
+{{--                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">--}}
+                    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+
+                        {{--  Flatpickr JS --}}
+                        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
                         {{-- Leads --}}
                         <script src="{{ asset('js/leads/leads.js') }}"></script>

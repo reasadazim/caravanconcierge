@@ -77,9 +77,7 @@ class LeadsController extends Controller
             'suburb' => 'nullable|string',
             'state' => 'nullable|string',
             'postcode' => 'nullable|string',
-            'storage_type' => 'nullable|string',
             'vehicle_type' => 'nullable|string',
-            'vehicle_model' => 'nullable|string',
             'vehicle_length' => 'nullable|numeric',
             'rego_number' => 'nullable|string',
             'status' => 'nullable|integer',
@@ -107,9 +105,7 @@ class LeadsController extends Controller
         $lead->suburb = $request->suburb;
         $lead->state = $request->state;
         $lead->postcode = $request->postcode;
-        $lead->storage_type = $request->storage_type;
         $lead->vehicle_type = $request->vehicle_type;
-        $lead->vehicle_model = $request->vehicle_model;
         $lead->vehicle_length = $request->vehicle_length;
         $lead->rego_number = $request->rego_number;
         $lead->status = $request->status;
@@ -141,6 +137,13 @@ class LeadsController extends Controller
             }
         }
         $lead->driver_license = serialize($driverLicenses);
+
+
+        $lead->last_contact_datetime = $request->input('last_contact_datetime');
+        $lead->contact_method = $request->input('contact_method');
+        $lead->followup_reminder = $request->input('followup_reminder');
+        $lead->contact_remarks = $request->input('contact_remarks');
+
 
         $lead->save();
 
@@ -177,9 +180,7 @@ class LeadsController extends Controller
             'suburb' => $lead->suburb,
             'state' => $lead->state,
             'postcode' => $lead->postcode,
-            'storage_type' => $lead->storage_type,
             'vehicle_type' => $lead->vehicle_type,
-            'vehicle_model' => $lead->vehicle_model,
             'vehicle_length' => $lead->vehicle_length,
             'rego_number' => $lead->rego_number,
             'status' => $lead->status,
@@ -191,6 +192,10 @@ class LeadsController extends Controller
             'photo' => $lead->photo,
             'asset_photos' => $assetPhotos,
             'driver_license_photos' => $driverLicensePhotos,
+            'last_contact_datetime' => $lead->last_contact_datetime,
+            'contact_method' => $lead->contact_method,
+            'followup_reminder' => $lead->followup_reminder,
+            'contact_remarks' => $lead->contact_remarks,
         ]);
     }
 
@@ -210,9 +215,7 @@ class LeadsController extends Controller
         $lead->suburb = $request->input('suburb');
         $lead->state = $request->input('state');
         $lead->postcode = $request->input('postcode');
-        $lead->storage_type = $request->input('storage_type');
         $lead->vehicle_type = $request->input('vehicle_type');
-        $lead->vehicle_model = $request->input('vehicle_model');
         $lead->vehicle_length = $request->input('vehicle_length');
         $lead->rego_number = $request->input('rego_number');
         $lead->status = $request->input('status');
@@ -244,6 +247,11 @@ class LeadsController extends Controller
             }
             $lead->driver_license = serialize($driverLicenses);
         }
+
+        $lead->last_contact_datetime = $request->input('last_contact_datetime');
+        $lead->contact_method = $request->input('contact_method');
+        $lead->followup_reminder = $request->input('followup_reminder');
+        $lead->contact_remarks = $request->input('contact_remarks');
 
         $lead->save();
 

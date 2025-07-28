@@ -25,27 +25,23 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('postcode')->nullable();
 
-            $table->integer('type')->nullable();
-            $table->string('storage_type')->nullable();
             $table->string('vehicle_type')->nullable();
-            $table->float('vehicle_length')->nullable(); // <- Newly added
-            $table->string('vehicle_model')->nullable();
-            $table->string('vehicle_estimated_value')->nullable();
+            $table->float('vehicle_length')->nullable();
             $table->string('rego_number')->nullable();
-            $table->integer('status')->nullable();
-            $table->integer('score')->nullable();
-            $table->integer('priority')->nullable();
 
             $table->text('photo')->nullable();
             $table->text('asset_photo')->nullable();
             $table->text('driver_license')->nullable();
+
+            $table->integer('status')->nullable();
+            $table->integer('score')->nullable();
 
             $table->string('emergency_contact_name')->nullable();
             $table->string('emergency_contact_phone')->nullable();
             $table->string('emergency_contact_address')->nullable();
 
             $table->longText('remarks')->nullable();
-            $table->dateTime('added_to_waitlist')->nullable();
+
             $table->dateTime('last_contact_datetime')->nullable();
             $table->string('contact_method')->nullable();
             $table->dateTime('followup_reminder')->nullable();
@@ -55,27 +51,25 @@ return new class extends Migration
             $table->timestamp('logged_at')->useCurrent();
         });
 
-        // Triggers
+        // Create Triggers
         foreach (['INSERT', 'UPDATE', 'DELETE'] as $action) {
             $when = $action === 'DELETE' ? 'OLD' : 'NEW';
             $columns = implode(', ', [
                 'lead_id', 'name', 'email', 'phone', 'country', 'street', 'suburb', 'state', 'postcode',
-                'type', 'storage_type', 'vehicle_type', 'vehicle_length', 'vehicle_model', 'vehicle_estimated_value',
-                'rego_number', 'status', 'score', 'priority', 'photo', 'asset_photo', 'driver_license',
-                'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address',
-                'remarks', 'added_to_waitlist', 'last_contact_datetime', 'contact_method',
+                'vehicle_type', 'vehicle_length', 'rego_number', 'photo', 'asset_photo', 'driver_license',
+                'status', 'score', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_address',
+                'remarks', 'last_contact_datetime', 'contact_method',
                 'followup_reminder', 'contact_remarks', 'action_type', 'logged_at'
             ]);
 
             $values = implode(', ', [
                 "$when.id", "$when.name", "$when.email", "$when.phone", "$when.country", "$when.street",
-                "$when.suburb", "$when.state", "$when.postcode", "$when.type", "$when.storage_type",
-                "$when.vehicle_type", "$when.vehicle_length", "$when.vehicle_model", "$when.vehicle_estimated_value",
-                "$when.rego_number", "$when.status", "$when.score", "$when.priority", "$when.photo",
-                "$when.asset_photo", "$when.driver_license", "$when.emergency_contact_name",
-                "$when.emergency_contact_phone", "$when.emergency_contact_address", "$when.remarks",
-                "$when.added_to_waitlist", "$when.last_contact_datetime", "$when.contact_method",
-                "$when.followup_reminder", "$when.contact_remarks", "'$action'", "NOW()"
+                "$when.suburb", "$when.state", "$when.postcode", "$when.vehicle_type", "$when.vehicle_length",
+                "$when.rego_number", "$when.photo", "$when.asset_photo", "$when.driver_license",
+                "$when.status", "$when.score", "$when.emergency_contact_name", "$when.emergency_contact_phone",
+                "$when.emergency_contact_address", "$when.remarks",
+                "$when.last_contact_datetime", "$when.contact_method", "$when.followup_reminder",
+                "$when.contact_remarks", "'$action'", "NOW()"
             ]);
 
             DB::unprepared("

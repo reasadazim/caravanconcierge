@@ -242,7 +242,7 @@ $('#openEditLeadBtn').click(function () {
                 dateFormat: "d-m-Y h:i K",  // 27-07-2025 10:30 AM
                 time_24hr: false,
                 defaultDate: [rawDatetime],  // from server or dynamic value
-                appendTo: document.querySelector('form #dateTimePicker'),
+                appendTo: document.querySelector('form #dateTimePickerLastContact'),
             });
 
 
@@ -250,10 +250,13 @@ $('#openEditLeadBtn').click(function () {
 
             const rawFollowup = data.followup_reminder;
 
-            if (rawFollowup) {
-                const formattedFollowup = rawFollowup.replace(' ', 'T').slice(0, 16);
-                $('#edit_followup_reminder').val(formattedFollowup);
-            }
+            flatpickr("#edit_followup_reminder", {
+                enableTime: true,
+                dateFormat: "d-m-Y h:i K",  // 27-07-2025 10:30 AM
+                time_24hr: false,
+                defaultDate: [rawFollowup],  // from server or dynamic value
+                appendTo: document.querySelector('form #dateTimePickerFollowupReminder'),
+            });
 
             $('#edit_contact_remarks').val(data.contact_remarks);
 

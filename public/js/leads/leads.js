@@ -235,27 +235,49 @@ $('#openEditLeadBtn').click(function () {
             $('#edit_remarks').val(data.remarks);
 
 
-            const rawDatetime = data.last_contact_datetime; // e.g., "2025-07-24 22:00:00"
+            // Convert Date Format
+            function convertDateFormat(dateTime){
 
-            flatpickr("#edit_last_contact_datetime", {
+                // Convert to Date object
+                const dateObj = new Date(dateTime);
+
+                // Extract parts
+                const day = String(dateObj.getDate()).padStart(2, '0');
+                const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                const year = dateObj.getFullYear();
+
+                let hours = dateObj.getHours();
+                const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+                const suffix = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12 || 12; // convert 0 to 12 for 12 AM
+
+                const formatted = `${day}-${month}-${year} ${hours}:${minutes} ${suffix}`;
+
+                return formatted;
+            }
+
+
+
+            const rawDatetime = convertDateFormat(data.last_contact_datetime); // e.g., "2025-07-24 22:00:00"
+
+
+            simpicker("#edit_last_contact_datetime", {
                 enableTime: true,
-                dateFormat: "d-m-Y h:i K",  // 27-07-2025 10:30 AM
+                dateFormat: "d-m-Y h:i K",
                 time_24hr: false,
-                defaultDate: [rawDatetime],  // from server or dynamic value
-                appendTo: document.querySelector('form #dateTimePickerLastContact'),
+                defaultDate: rawDatetime,
             });
 
 
             $('#edit_contact_method').val(data.contact_method);
 
-            const rawFollowup = data.followup_reminder;
+            const rawFollowup = convertDateFormat(data.followup_reminder);
 
-            flatpickr("#edit_followup_reminder", {
+            simpicker("#edit_followup_reminder", {
                 enableTime: true,
-                dateFormat: "d-m-Y h:i K",  // 27-07-2025 10:30 AM
+                dateFormat: "d-m-Y h:i K",
                 time_24hr: false,
-                defaultDate: [rawFollowup],  // from server or dynamic value
-                appendTo: document.querySelector('form #dateTimePickerFollowupReminder'),
+                defaultDate: rawFollowup,
             });
 
             $('#edit_contact_remarks').val(data.contact_remarks);

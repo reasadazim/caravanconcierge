@@ -280,11 +280,14 @@
 
 
                         {{-- Flatpickr CSS --}}
-{{--                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">--}}
-                    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+                        <link rel="stylesheet" type="text/css" href="{{ asset('simpicker/simpicker.css') }}">
 
-                        {{--  Flatpickr JS --}}
-                        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                        {{-- Flatpickr JS --}}
+                        <script src="{{ asset('simpicker/simpicker.js') }}"></script>
+
+
+
+
 
                         {{-- Leads --}}
                         <script src="{{ asset('js/leads/leads.js') }}"></script>

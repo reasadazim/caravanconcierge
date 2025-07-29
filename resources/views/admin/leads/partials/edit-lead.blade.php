@@ -213,8 +213,7 @@
                             </div>
                             <div class="col-md-4" id="dateTimePickerLastContact">
                                 <label class="form-label">Last Contact Date Time</label>
-                                {{--                                <input type="datetime-local" name="last_contact_datetime" id="edit_last_contact_datetime" class="form-control">--}}
-                                <input type="text" name="last_contact_datetime" id="edit_last_contact_datetime" class="form-control">
+                                <input type="text" name="last_contact_datetime" id="edit_last_contact_datetime" class="form-control" readonly>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Contact Method</label>
@@ -228,8 +227,7 @@
                             </div>
                             <div class="col-md-4" id="dateTimePickerFollowupReminder">
                                 <label class="form-label">Followup Reminder Date Time</label>
-                                {{--                                <input type="datetime-local" name="followup_reminder" id="edit_followup_reminder" class="form-control">--}}
-                                <input type="text" name="followup_reminder" id="edit_followup_reminder" class="form-control">
+                                <input type="text" name="followup_reminder" id="edit_followup_reminder" class="form-control" readonly>
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Contact Remarks</label>

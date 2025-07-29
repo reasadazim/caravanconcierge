@@ -1,0 +1,138 @@
+    :root {
+      --primary: #4f46e5;
+      --gray-100: #f3f4f6;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --white: #ffffff;
+      --black: #111827;
+    }
+
+    .simpicker-wrapper {
+      position: relative;
+      max-width: 320px;
+      margin: auto;
+    }
+
+    .simpicker-wrapper[dir="rtl"] .simpicker-header {
+      flex-direction: row-reverse;
+    }
+
+    .simpicker-wrapper[dir="rtl"] .simpicker-calendar {
+      direction: rtl;
+    }
+
+    .simpicker-input {
+      /*width: 100%;*/
+      /*padding: 12px 16px;*/
+      /*font-size: 16px;*/
+      /*border: 1px solid var(--gray-300);*/
+      /*border-radius: 8px;*/
+      /*background: var(--white);*/
+      /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);*/
+      /*transition: border-color 0.2s;*/
+    }
+
+    .simpicker-input:focus {
+      /*outline: none;*/
+      /*border-color: var(--primary);*/
+    }
+
+    .simpicker-popup {
+      position: absolute;
+      top: 110%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      border-radius: 10px;
+      padding: 16px;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .simpicker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .simpicker-header select,
+    .simpicker-header div {
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--gray-300);
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .simpicker-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .simpicker-calendar .day {
+      padding: 8px 0;
+      background: var(--gray-100);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .simpicker-calendar .day:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .simpicker-calendar .selected {
+      background: var(--primary);
+      color: var(--white);
+      font-weight: bold;
+    }
+
+    .simpicker-calendar .today {
+      border: 2px solid var(--primary);
+    }
+
+    .simpicker-calendar .weekday {
+      font-weight: 600;
+      background: transparent;
+      color: var(--gray-500);
+      cursor: default;
+    }
+
+    .simpicker-time {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .simpicker-time select {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--gray-300);
+      background: var(--white);
+    }
+
+    .simpicker-set {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-align: center;
+      background: var(--primary);
+      color: var(--white);
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+
+    .simpicker-set:hover {
+      background: #4338ca;
+    }

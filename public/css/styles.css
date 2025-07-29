@@ -84,11 +84,3 @@ table.dataTable thead .sorting_desc:after {
     filter: invert(34%) sepia(96%) saturate(7471%) hue-rotate(358deg) brightness(96%) contrast(112%);
 }
 
-
-/* Datepicker */
-.flatpickr-calendar {
-    position: absolute !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-}
